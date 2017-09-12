@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Coder DH&#39;s Blog</title>
-    <link>haoding0713.github.io/</link>
+    <link>https://haoding0713.github.io/</link>
     <description>Recent content on Coder DH&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 12 Sep 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="haoding0713.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://haoding0713.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>[译]如何在Archlinux上安装Yaourt</title>
-      <link>haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/</link>
+      <link>https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/</link>
       <pubDate>Tue, 12 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/</guid>
+      <guid>https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/</guid>
       <description>&lt;p&gt;Arch Linux与其他主要发行版的一个主要不同点是允许用户能够根据喜好安装来自社区仓库(Arch User Repository or Simply AUR)的软件包。
 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>My New Blog</title>
-      <link>haoding0713.github.io/2017/09/my-new-blog/</link>
+      <link>https://haoding0713.github.io/2017/09/my-new-blog/</link>
       <pubDate>Tue, 05 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>haoding0713.github.io/2017/09/my-new-blog/</guid>
+      <guid>https://haoding0713.github.io/2017/09/my-new-blog/</guid>
       <description>&lt;p&gt;新的博客。是记录，也是一种督促。
 &lt;/p&gt;</description>
     </item>
