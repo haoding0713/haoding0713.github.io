@@ -5,7 +5,7 @@
     <link>https://haoding0713.github.io/</link>
     <description>Recent content on Coder DH&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>zh-cn</language>
     <lastBuildDate>Tue, 12 Sep 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://haoding0713.github.io/index.xml" rel="self" type="application/rss+xml" />
@@ -17,7 +17,7 @@
       <pubDate>Tue, 12 Sep 2017 00:00:00 +0000</pubDate>
       
       <guid>https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/</guid>
-      <description>&lt;p&gt;Arch Linux与其他主要发行版的一个主要不同点是允许用户能够根据喜好安装来自社区仓库(Arch User Repository or Simply AUR)的软件包。
+      <description>&lt;p&gt;9月一次日常系统升级后，导致Remarkable无法使用。重装了也没解决，最后发现是依赖的webkitgtk版本过旧，被官方标记为不安全，从仓库中移除。这过程中，Yaourt和AUR也被我翻来倒去地折腾，差点被玩坏。所以还是备份一下Yaourt的安装方式。
 &lt;/p&gt;</description>
     </item>
     
