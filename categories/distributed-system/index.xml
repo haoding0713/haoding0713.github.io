@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Distributed System on Coder DH&#39;s Blog</title>
+    <link>https://haoding0713.github.io/categories/distributed-system/</link>
+    <description>Recent content in Distributed System on Coder DH&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 13 Sep 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://haoding0713.github.io/categories/distributed-system/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>分布式系统中的一致性协议</title>
+      <link>https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/</link>
+      <pubDate>Wed, 13 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/</guid>
+      <description>&lt;p&gt;本文汇总并介绍了目前分布式系统中常见的一些一致性协议：两阶段提交协议，三阶段提交协议，向量时钟，RWN协议，paxos协议，Raft协议。作为是一个索引。
+&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

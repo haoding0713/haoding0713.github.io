@@ -20,7 +20,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.26 with theme Tranquilpeak 0.4.1-BETA">
-    <title>[译]如何在Archlinux上安装Yaourt</title>
+    <title>分布式系统中的一致性协议</title>
     <meta name="author" content="Hao DING">
     <meta name="keywords" content="">
 
@@ -28,17 +28,17 @@
     
 
     
-    <meta name="description" content="9月一次日常系统升级后，导致Remarkable无法使用。重装了也没解决，最后发现是依赖的webkitgtk版本过旧，被官方标记为不安全，从仓库中移除。这过程中，Yaourt和AUR也被我翻来倒去地折腾，差点被玩坏。所以还是备份一下Yaourt的安装方式。
+    <meta name="description" content="本文汇总并介绍了目前分布式系统中常见的一些一致性协议：两阶段提交协议，三阶段提交协议，向量时钟，RWN协议，paxos协议，Raft协议。作为是一个索引。
 ">
-    <meta property="og:description" content="9月一次日常系统升级后，导致Remarkable无法使用。重装了也没解决，最后发现是依赖的webkitgtk版本过旧，被官方标记为不安全，从仓库中移除。这过程中，Yaourt和AUR也被我翻来倒去地折腾，差点被玩坏。所以还是备份一下Yaourt的安装方式。
+    <meta property="og:description" content="本文汇总并介绍了目前分布式系统中常见的一些一致性协议：两阶段提交协议，三阶段提交协议，向量时钟，RWN协议，paxos协议，Raft协议。作为是一个索引。
 ">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="[译]如何在Archlinux上安装Yaourt">
-    <meta property="og:url" content="/2017/09/how-to-install-yarout-on-arch/">
+    <meta property="og:title" content="分布式系统中的一致性协议">
+    <meta property="og:url" content="/2017/09/consistence-protocol-in-distributed-system/">
     <meta property="og:site_name" content="Coder DH&#39;s Blog">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Coder DH&#39;s Blog">
-    <meta name="twitter:description" content="9月一次日常系统升级后，导致Remarkable无法使用。重装了也没解决，最后发现是依赖的webkitgtk版本过旧，被官方标记为不安全，从仓库中移除。这过程中，Yaourt和AUR也被我翻来倒去地折腾，差点被玩坏。所以还是备份一下Yaourt的安装方式。
+    <meta name="twitter:description" content="本文汇总并介绍了目前分布式系统中常见的一些一致性协议：两阶段提交协议，三阶段提交协议，向量时钟，RWN协议，paxos协议，Raft协议。作为是一个索引。
 ">
     
     
@@ -51,7 +51,7 @@
     
 
     
-      <meta property="og:image" content="http://www.ostechnix.com/wp-content/uploads/2016/03/Install-Yaourt-In-Arch-Linux.jpg">
+      <meta property="og:image" content="https://haoding0713.github.io/img/cap.png">
     
     
     
@@ -216,15 +216,15 @@
             <div class="post-header main-content-wrap text-center">
   
     <h1 class="post-title" itemprop="headline">
-      [译]如何在Archlinux上安装Yaourt
+      分布式系统中的一致性协议
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2017-09-12T00:00:00Z">
+      <time itemprop="datePublished" datetime="2017-09-13T00:00:00Z">
         
-  九月 12, 2017
+  九月 13, 2017
 
       </time>
     
@@ -233,7 +233,7 @@
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://haoding0713.github.io/categories/archlinux">archlinux</a>
+      <a class="category-link" href="https://haoding0713.github.io/categories/distributed-system">distributed system</a>
     
   
 
@@ -244,79 +244,225 @@
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <p>9月一次日常系统升级后，导致Remarkable无法使用。重装了也没解决，最后发现是依赖的webkitgtk版本过旧，被官方标记为不安全，从仓库中移除。这过程中，Yaourt和AUR也被我翻来倒去地折腾，差点被玩坏。所以还是备份一下Yaourt的安装方式。
+              <p>本文汇总并介绍了目前分布式系统中常见的一些一致性协议：两阶段提交协议，三阶段提交协议，向量时钟，RWN协议，paxos协议，Raft协议。作为是一个索引。
 </p>
 
-<blockquote>
-<p>Arch Linux与其他主要发行版的一个主要不同点是允许用户能够根据喜好安装来自社区仓库(Arch User Repository or Simply AUR)的软件包。这是一个完全由社区驱动的软件仓库，其中包含了约44,000多个软件包。 然而，用户无法使用自带的pacman包管理器来安装这些第三方软件。只能自己下载，校验后再安装。Yaourt(<strong>Y</strong>et <strong>A</strong>n<strong>O</strong>ther <strong>U</strong>ser <strong>R</strong>epository <strong>T</strong>ool), 用于便利地下载AUR仓库中的软件。 简而言之，Yaourt是在Pacman上提供了AUR软件的安装和其他一些新的功能。</p>
-</blockquote>
+<hr />
 
-<p>在这篇博客里，我会介绍在Arch上安装Yaourt的两种方式:</p>
+<h2 id="一-两阶段提交协议-2-phase-commit-protocol">一、两阶段提交协议(2 Phase Commit Protocol)</h2>
+
+<p>两阶段提交协议，简称2PC，是比较常用的解决<strong>分布式事务</strong>问题的方式。对于所有参与的进程，要么都提交事务，要么都取消事务，从而满足ACID中的原子性。
+顾名思义，两阶段提交协议将传统的Commit分为两个阶段：投票阶段(Voting)和正式提交(Commit)。假设在没有发生故障的情况下，两阶段提交协议由下列操作序列构成，如下图所示：</p>
+
+<pre><code>Coordinator                                         Cohort
+                              QUERY TO COMMIT
+                --------------------------------&gt;
+                              VOTE YES/NO           prepare*/abort*
+                &lt;-------------------------------
+commit*/abort*                COMMIT/ROLLBACK
+                --------------------------------&gt;
+                              ACKNOWLEDGMENT        commit*/abort*
+                &lt;--------------------------------  
+end
+
+[注] 带有*号的记录表示强制存储
+</code></pre>
+
+<h3 id="投票阶段-voting-phase">投票阶段(Voting Phase)</h3>
 
 <ol>
-<li>通过他人的仓库安装Yaourt</li>
-<li>利用AUR安装Yaourt
-[注]<em>第一种方式会更容易一些</em></li>
+<li>协调者发送一个请求消息到所有的参与者并等待回复。</li>
+<li>参与者执行相应的事务（未提交）。同时在undo log和redo log中记录。</li>
+<li>如果操作执行成功，参与者返回一个同意消息；反之，返回一个取消消息。</li>
 </ol>
 
-<h2 id="1-通过他人的仓库安装yaourt">1. 通过他人的仓库安装Yaourt</h2>
+<h3 id="正式提交阶段-commit-phase">正式提交阶段(Commit Phase)</h3>
 
-<p>打开并编辑Pacman的配置文件:</p>
+<h5 id="成功的情况">成功的情况</h5>
 
-<pre><code class="language-bash">sudo vim /etc/pacman.conf
+<p>如果协调者收到的回复都是同意：</p>
+
+<ol>
+<li>协调者给参与者发送提交消息。</li>
+<li>参与者完成操作，并释放资源。</li>
+<li>参与者返回一个确认消息。</li>
+<li>当协调者收到全部确认消息后，完成事务。</li>
+</ol>
+
+<h5 id="失败的情况">失败的情况</h5>
+
+<p>如果有一个参与者返回取消消息：</p>
+
+<ol>
+<li>协调者发送回滚消息</li>
+<li>参与者根据undo log的记录执行回滚，并释放资源。</li>
+<li>参与者返回一个确认消息。</li>
+<li>协调者在收到全部确认消息后，回滚操作。</li>
+</ol>
+
+<h3 id="缺点">缺点</h3>
+
+<p>两阶段提交协议最大的缺陷在于它本身是一个阻塞的协议。这意味着，如果协调者出现不可用的情况，那么参与者可能永远无法完成事务的提交。参与者在发送同意消息后，一直处于阻塞状态，直到收到提交或回滚的消息。</p>
+
+<p><strong>补充</strong>:在高并发下，往往参与者数量越多，则等待时间越长，同时由于参与者处于阻塞状态，锁定了资源，会带来性能的下降</p>
+
+<hr />
+
+<h2 id="二-三阶段提交协议-3pc">二、三阶段提交协议(3PC)</h2>
+
+<p>与二阶段提交协议不同点在于，3PC是非阻塞的。具体而言，在三阶段提交协议中，对于一个事务设置了一个超时时间上限，这就确保了，通过三阶段提交协议处理事务，在超时后会释放资源。</p>
+
+<pre><code>STATUS          Coordinator                             Cohort      STATUS
+                                CAN COMMIT ? 
+                      --------------------------------&gt;
+Soliciting votes                  YES                             Uncertain.
+                      &lt;----------------------   Phase_1           Timeout causes abort.
+
+
+                                PRE COMMIT
+                      --------------------------------&gt;
+Commit authorized               ACKNOWLEDGMENT                    Prepared to commit. 
+timeout causes abort  &lt;----------------------   Phase_2           Timeout causes commit.
+
+
+
+                                DO COMMIT
+                      --------------------------------&gt;
+Finalizing commit               ACKNOWLEDGMENT                    Committed. 
+timeout causes abort  &lt;----------------------   Phase_3               
+
+Done.
 </code></pre>
 
-<p>在文件末尾增加一个新的仓库源:</p>
+<h3 id="协作者">协作者</h3>
 
-<pre><code class="language-xml">[archlinuxfr]
-SigLevel = Never
-Server = http://repo.archlinux.fr/$arch
-</code></pre>
+<ol>
+<li>协作者发送查询消息(CanCommit)，并等待参与者的应答，并进入等待状态。</li>
+<li>如果超时或者有参与者返回取消，则中止事务，并发送中止(Abort)消息给其他参与者。如果一切顺利，则发送预提交(PreCommit)消息并进入准备状态。</li>
+<li>如果协作者完成准备阶段，则进入提交阶段。此时，若参与者的响应超时，协作者将中止事务。</li>
+</ol>
 
-<p>保存修改。</p>
+<h3 id="参与者">参与者</h3>
 
-<p>最后， 更新仓库内容并安装Yaourt</p>
+<ol>
+<li>收到CanCommit消息后，如果参与者同意，则回复Yes并进入到准备状态。否则回复No并进入中止状态。</li>
+<li>在准备状态时，如果从协调者收到Abort消息、失败或者超时，放弃操作。 反之，如果收到PreCommit消息，回复ACK消息并等待最终的commit或abort消息。</li>
+<li>在收到PreCommit消息后，这时协调者发生失败或者超时的情况，则直接进行commit。</li>
+</ol>
 
-<pre><code>sudo pacman -Sy yaourt
-</code></pre>
+<h3 id="三阶段提交协议想解决的问题">三阶段提交协议想解决的问题</h3>
 
-<p>这样就安装好了，接下来就可以直接使用Yaourt进行包的管理了。用法和Pacman相同，可以通过-h参数查看命令的帮助信息。</p>
+<p>两阶段提交协议中，如果在提交阶段，协调者或参与者之一发生异常，无法有效地恢复。</p>
 
-<h2 id="2-利用aur安装yaourt">2. 利用AUR安装Yaourt</h2>
+<ul>
+<li>情况一：协调者发生异常，而参与者无法收到commit消息，不难得知，这时候并没有任务事务被提交。</li>
+<li>情况二：协调者和参与者都是发生异常，在某些情况下，异常的参与者可能是第一个收到消息并完成提交了操作。</li>
+<li>情况三：即便通过集群重新选举出新的协调者，直到它收到来自所有参与者的Agreement之前，都无法轻易地进行任何操作，只能一直阻塞并等待。</li>
+</ul>
 
-<p>在正式安装Yaourt之前，需要先安装一些依赖的包。执行：</p>
+<p>三阶段提交协议通过引入一个Prepared阶段来消除上述的问题。 如果协调者在发出PreCommit消息前发生了异常，那么参与者会一致认为操作被中止。
+同时协调者在收到全部参与者的ACK消息前不会发送DoCommit消息。这样就消除了部分参与者在没有达成一致的情况下贸然完成操作的可能性。</p>
 
-<pre><code>sudo pacman -S --needed base-devel git wget yajl
-</code></pre>
+<h3 id="缺点-1">缺点</h3>
 
-<p>在完成这些基本依赖后，我们需要下载并安装package-query来构建和运行Yaourt。
-可以通过Git获得package-query的代码：</p>
+<p>最主要的缺点是一旦网络出现中断，则这个操作无法从中断中恢复。最初的3PC算法被设计为异常-停止模型，任何的崩溃会被检测到，而局部网络或异步通信也无法继续进行操作。</p>
 
-<pre><code>git clone https://aur.archlinux.org/package-query.git
-</code></pre>
+<hr />
 
-<p>clone完成后，进入package-query文件夹，编译并安装：</p>
+<h2 id="三-向量时钟">三、向量时钟</h2>
 
-<pre><code>cd package-query/
-makepkg -si
-</code></pre>
+<p>通过向量空间祖先继承的关系比较, 使数据保持最终一致性,这就是向量时钟的基本定义。</p>
 
-<p>稍等片刻，Package-query就安装成功了。接下来，我们需要clone最新的Yaourt代码：</p>
+<p>下面给出一个场景来说明向量时钟的作用：
+Alice, Ben, Cathy和Dave四人约定下周一起聚餐，四个人通过邮件商量聚餐的时间。
+Alice首先建议周三聚餐。
+之后Dave和Cathy觉得周四更合适。
+后来Dave和Ben商量觉得周二也行。
+最后Alice汇总大家的意见，得到的反馈如下：
+Cathy说，他和Dave商量的时间是周四;
+Ben说，他和Dave商量的时间是周三;</p>
 
-<pre><code>git clone https://aur.archlinux.org/yaourt.git
-</code></pre>
+<p>此时恰好联系不上Dave，而且不知道Cathy和Ben分别与Dave确定时间的先后顺序；Alice就不能确定到底应该定在哪天了。</p>
 
-<p>同样，编译并安装Yaourt：</p>
+<p>而向量时钟就是为了解决这类问题而设计的，简单来说，就是为每一个商议结果加上时间戳，当结果改变时，更新时间戳。所以加上时间戳之后我们再描述一次上面的场景：</p>
 
-<pre><code>cd yaourt/
-makepkg -si
-</code></pre>
+<p>当Alice最先建议将时间定在周三，可以这样描述信息：
+date = Wednesday
+vclock = Alice：1</p>
 
-<p>至此，Yaourt就安装完成了。</p>
+<p>其他三个人都收到了消息，Dave开始同Ben交流，Ben建议改成周二，把Alice的初始向量加进去表示Ben看到了Alice的消息了
+date = Tuesday
+vclock = Alice：1，Ben：1</p>
 
-<p>[注]还可以安装aurvote小工具，给你喜欢的软件包投票打分。</p>
+<p>Dave回复Ben，确定周二可以
+date = Tuesday
+vclokc = Alice：1, Ben：1，Dave：1</p>
 
-<p>原文链接: <a href="https://www.ostechnix.com/install-yaourt-arch-linux/">How To Install Yaourt In Arch Linux</a></p>
+<p>然后Cathy开始说话，但和Dave建议说是周四，此时在Dave看来就收到了两条数据如下：
+date = Tuesday
+vclokc = Alice：1, Ben：1，Dave：1</p>
+
+<p>date = Thursday
+vclock = Alice：1, Cathy：1</p>
+
+<p>而这两条数据都不是互相的祖先，就产生了冲突，Dave要解决这个冲突，他选择了周四，然后修改了消息内容回复给Cathy
+date = Thursday
+vclock = Alice：1, Ben：1, Cathy：1, Dave：2</p>
+
+<p>最后，Alice只问Ben和Cathy到底决定哪天？
+Ben回答
+date = Tuesday
+vclock = Alice：1 ，Ben：1, Dave：1</p>
+
+<p>而Cathy回到
+date = Thursday
+vclock = Alice：1, Ben：1, Cathy：1, Dave：2</p>
+
+<p>至此Alice就明白了，因为Cathy说的是完全继承Ben说的，最终采纳了Cathy的决定，定在周四。</p>
+
+<hr />
+
+<h2 id="四-nwr协议">四、NWR协议</h2>
+
+<p>NWR协议是在分布式系统中用于控制一致性级别的一种策略。最初是Amazon在它的Dynamo云存储系统中使用。</p>
+
+<p>首先来看一下NWR分别代表的含义：
+N： 在分布式系统中，有N份备份数据。
+W： 代表一次成功的更新操作至少要求W份数据写入成功。
+R： 代表一次成功的读取操作至少要求R份数据读取成功。</p>
+
+<p>NWR的不同组合会产生不同的效果。比如当W + R &gt; N的时候，整个系统对于客户端来讲能保持强一致性。
+以常见的N = 3 ， W = 2, R = 2 为例：
+系统一共有三个副本，一次数据的写入操作，至少需要在两个备份中完成才能返回。同样一次数据读取操作，至少需要在两个备份中读到，才能返回。</p>
+
+<p>在分布式系统中，数据的单点是不允许存在的。通常工业界通常的做法是N=3,这样即便一个备份发生损坏，依旧能满足 W + R &gt; N，从而保证数据的强一致性。</p>
+
+<p>在满足数据一致性协议的前提下，R或者W设置的越大，则系统延迟越大，因为这取决于最慢的那份备份数据的响应时间。而如果R+W&lt;=N，则无法保证数据的强一致性，因为成功写和成功读集合可能不存在交集，这样读操作无法读取到最新的更新数值，也就无法保证数据的强一致性。
+在具体实现系统时，仅仅依靠NWR协议还不能完成一致性保证，因为在上述过程中，当读取到多个备份数据时，需要判断哪些数据是最新的，如何判断数据的新旧？这需要向量时钟来配合，所以对于Dynamo来说，是通过NWR协议结合向量时钟来共同完成一致性保证的。</p>
+
+<hr />
+
+<h2 id="五-paxos协议">五、Paxos协议</h2>
+
+<p>Paxos协议的基础比较难理解，同时衍生出了一些其他变种。相关资料可以在网上搜索到，下面是几个参考链接：</p>
+
+<p>架构师需要了解的Paxos原理，历程及实践：<a href="http://chuansong.me/n/2189245">http://chuansong.me/n/2189245</a>
+微信自研生产级Paxos类库Phxpaxos实现原理介绍：<a href="http://mp.weixin.qq.com/s?__biz=MzI4NDMyNTU2Mw==&amp;mid=2247483695&amp;idx=1&amp;sn=91ea422913fc62579e020e941d1d059e#rd">http://mp.weixin.qq.com/s?__biz=MzI4NDMyNTU2Mw==&amp;mid=2247483695&amp;idx=1&amp;sn=91ea422913fc62579e020e941d1d059e#rd</a></p>
+
+<hr />
+
+<h2 id="六-raft协议">六、Raft协议</h2>
+
+<p>正式由于Paxos算法的复杂性，Raft被创造来实现：
+* 更易理解的设计
+  将整个算法分解为leader选举、日志复制、安全性、成员变更四个部分</p>
+
+<ul>
+<li>简化状态空间（不像single-decree Paxos那样分2个阶段*2种角色*每个角色多种决策行为）
+更加明确的细节</li>
+</ul>
+
+<p>非常清晰，详解Raft协议的动画： <a href="http://thesecretlivesofdata.com/raft/">http://thesecretlivesofdata.com/raft/</a></p>
               
             </div>
           </div>
@@ -330,7 +476,7 @@ makepkg -si
         <ul class="post-actions post-action-nav">
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/" data-tooltip="分布式系统中的一致性协议">
+                <a class="post-action-btn btn btn--disabled">
               
                 <i class="fa fa-angle-left"></i>
                 <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -338,7 +484,7 @@ makepkg -si
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/09/my-new-blog/" data-tooltip="My New Blog">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/" data-tooltip="[译]如何在Archlinux上安装Yaourt">
               
                 <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                 <i class="fa fa-angle-right"></i>
@@ -355,19 +501,19 @@ makepkg -si
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -414,7 +560,7 @@ makepkg -si
         <ul class="post-actions post-action-nav">
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/" data-tooltip="分布式系统中的一致性协议">
+                <a class="post-action-btn btn btn--disabled">
               
                 <i class="fa fa-angle-left"></i>
                 <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -422,7 +568,7 @@ makepkg -si
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/09/my-new-blog/" data-tooltip="My New Blog">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/" data-tooltip="[译]如何在Archlinux上安装Yaourt">
               
                 <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                 <i class="fa fa-angle-right"></i>
@@ -439,19 +585,19 @@ makepkg -si
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -481,19 +627,19 @@ makepkg -si
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F09%2Fhow-to-install-yarout-on-arch%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F09%2Fconsistence-protocol-in-distributed-system%2F">
           <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F09%2Fhow-to-install-yarout-on-arch%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F09%2Fconsistence-protocol-in-distributed-system%2F">
           <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F09%2Fhow-to-install-yarout-on-arch%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F09%2Fconsistence-protocol-in-distributed-system%2F">
           <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
         </a>
       </li>
@@ -667,9 +813,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/haoding0713.github.io\/2017\/09\/how-to-install-yarout-on-arch\/';
+          this.page.url = 'https:\/\/haoding0713.github.io\/2017\/09\/consistence-protocol-in-distributed-system\/';
           
-            this.page.identifier = '\/2017\/09\/how-to-install-yarout-on-arch\/'
+            this.page.identifier = '\/2017\/09\/consistence-protocol-in-distributed-system\/'
           
         };
         (function() {
