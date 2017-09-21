@@ -3,57 +3,74 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/</loc>
+    <loc>http://haoding0713.github.io/2017/09/review-cookie/</loc>
+    <lastmod>2017-09-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/</loc>
     <lastmod>2017-09-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/</loc>
+    <loc>http://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/</loc>
     <lastmod>2017-09-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/2017/09/my-new-blog/</loc>
+    <loc>http://haoding0713.github.io/2017/09/my-new-blog/</loc>
     <lastmod>2017-09-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/archives/</loc>
+    <loc>http://haoding0713.github.io/archives/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/categories/archlinux/</loc>
+    <loc>http://haoding0713.github.io/categories/archlinux/</loc>
     <lastmod>2017-09-12T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/categories/</loc>
+    <loc>http://haoding0713.github.io/categories/</loc>
     <lastmod>2017-09-12T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/</loc>
+    <loc>http://haoding0713.github.io/</loc>
+    <lastmod>2017-09-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://haoding0713.github.io/categories/cookie/</loc>
+    <lastmod>2017-09-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://haoding0713.github.io/categories/distributed-system/</loc>
     <lastmod>2017-09-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/categories/distributed-system/</loc>
-    <lastmod>2017-09-13T00:00:00+00:00</lastmod>
+    <loc>http://haoding0713.github.io/post/</loc>
+    <lastmod>2017-09-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/post/</loc>
-    <lastmod>2017-09-13T00:00:00+00:00</lastmod>
+    <loc>http://haoding0713.github.io/tags/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/tags/</loc>
+    <loc>http://haoding0713.github.io/categories/web-security/</loc>
+    <lastmod>2017-09-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
