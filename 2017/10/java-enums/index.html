@@ -20,7 +20,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.27.1 with theme Tranquilpeak 0.4.1-BETA">
-    <title>[译]如何在Archlinux上安装Yaourt</title>
+    <title>【译】Java语言之Enums： 集优雅与可玩性与一体</title>
     <meta name="author" content="Hao DING">
     <meta name="keywords" content="">
 
@@ -28,17 +28,17 @@
     
 
     
-    <meta name="description" content="9月一次日常系统升级后，导致Remarkable无法使用。重装了也没解决，最后发现是依赖的webkitgtk版本过旧，被官方标记为不安全，从仓库中移除。这过程中，Yaourt和AUR也被我翻来倒去地折腾，差点被玩坏。所以还是备份一下Yaourt的安装方式。
+    <meta name="description" content="话说Java 8已经到来(译者补充：时至今日，Java 9也呼之欲出)，但我们真的已经非常了解从Java 5那时就引入的Enum（枚举）了吗？ 枚举在Java语言中的作用被低估了，除了定义/保存常量之类的日常用法，其实它还有更多的用武之地。
 ">
-    <meta property="og:description" content="9月一次日常系统升级后，导致Remarkable无法使用。重装了也没解决，最后发现是依赖的webkitgtk版本过旧，被官方标记为不安全，从仓库中移除。这过程中，Yaourt和AUR也被我翻来倒去地折腾，差点被玩坏。所以还是备份一下Yaourt的安装方式。
+    <meta property="og:description" content="话说Java 8已经到来(译者补充：时至今日，Java 9也呼之欲出)，但我们真的已经非常了解从Java 5那时就引入的Enum（枚举）了吗？ 枚举在Java语言中的作用被低估了，除了定义/保存常量之类的日常用法，其实它还有更多的用武之地。
 ">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="[译]如何在Archlinux上安装Yaourt">
-    <meta property="og:url" content="/2017/09/how-to-install-yarout-on-arch/">
+    <meta property="og:title" content="【译】Java语言之Enums： 集优雅与可玩性与一体">
+    <meta property="og:url" content="/2017/10/java-enums/">
     <meta property="og:site_name" content="Coder DH&#39;s Blog">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Coder DH&#39;s Blog">
-    <meta name="twitter:description" content="9月一次日常系统升级后，导致Remarkable无法使用。重装了也没解决，最后发现是依赖的webkitgtk版本过旧，被官方标记为不安全，从仓库中移除。这过程中，Yaourt和AUR也被我翻来倒去地折腾，差点被玩坏。所以还是备份一下Yaourt的安装方式。
+    <meta name="twitter:description" content="话说Java 8已经到来(译者补充：时至今日，Java 9也呼之欲出)，但我们真的已经非常了解从Java 5那时就引入的Enum（枚举）了吗？ 枚举在Java语言中的作用被低估了，除了定义/保存常量之类的日常用法，其实它还有更多的用武之地。
 ">
     
     
@@ -51,7 +51,7 @@
     
 
     
-      <meta property="og:image" content="http://www.ostechnix.com/wp-content/uploads/2016/03/Install-Yaourt-In-Arch-Linux.jpg">
+      <meta property="og:image" content="https://haoding0713.github.io/img/snugfitseatsleepbig.jpeg">
     
     
     
@@ -216,15 +216,15 @@
             <div class="post-header main-content-wrap text-center">
   
     <h1 class="post-title" itemprop="headline">
-      [译]如何在Archlinux上安装Yaourt
+      【译】Java语言之Enums： 集优雅与可玩性与一体
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2017-09-12T00:00:00Z">
+      <time itemprop="datePublished" datetime="2017-10-11T00:00:00Z">
         
-  九月 12, 2017
+  十月 11, 2017
 
       </time>
     
@@ -233,7 +233,7 @@
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://haoding0713.github.io/categories/archlinux">archlinux</a>
+      <a class="category-link" href="https://haoding0713.github.io/categories/java">Java</a>
     
   
 
@@ -244,79 +244,246 @@
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <p>9月一次日常系统升级后，导致Remarkable无法使用。重装了也没解决，最后发现是依赖的webkitgtk版本过旧，被官方标记为不安全，从仓库中移除。这过程中，Yaourt和AUR也被我翻来倒去地折腾，差点被玩坏。所以还是备份一下Yaourt的安装方式。
+              <p>话说Java 8已经到来(译者补充：时至今日，Java 9也呼之欲出)，但我们真的已经非常了解从Java 5那时就引入的Enum（枚举）了吗？ 枚举在Java语言中的作用被低估了，除了定义/保存常量之类的日常用法，其实它还有更多的用武之地。
 </p>
 
+<h2 id="枚举的多态性">枚举的多态性</h2>
+
+<p>在Java中，所有的枚举类均隐式地继承了<code>java.lang.Enum</code>类。既然枚举是类，那么就可以拥有属性和方法。</p>
+
+<p>让我们使用包含一个简单方法的枚举类型来实现一个“石头-剪刀-布”的游戏吧。</p>
+
+<pre><code class="language-Java">@Test
+public void paper_beats_rock() {
+	assertThat(PAPER.beats(ROCK)).isTrue();
+	assertThat(ROCK.beats(PAPER)).isFalse();
+}
+@Test
+public void scissors_beats_paper() {
+	assertThat(SCISSORS.beats(PAPER)).isTrue();
+	assertThat(PAPER.beats(SCISSORS)).isFalse();
+}
+@Test
+public void rock_beats_scissors() {
+	assertThat(ROCK.beats(SCISSORS)).isTrue();
+	assertThat(SCISSORS.beats(ROCK)).isFalse();
+}
+</code></pre>
+
+<p>下面是具体的枚举实现，游戏胜负的判定是借由每个枚举实例的下标（ordinal）来比较，排在后面的实例胜过在它之前的其他实例。（注：因为游戏本身有一个胜负的环，石头&gt;剪刀&gt;布&gt;石头，所以我们重载了“石头”的方法，以此来确保判定逻辑的正确性）</p>
+
+<pre><code class="language-Java">/** Enums have behavior! */
+public enum Gesture {
+	ROCK() {
+		// Enums are polymorphic, that's really handy!
+		@Override
+		public boolean beats(Gesture other) {
+			return other == SCISSORS;
+		}
+	},
+	PAPER, SCISSORS;
+
+	// we can implement with the integer representation
+	public boolean beats(Gesture other) {
+		return ordinal() - other.ordinal() == 1;
+	}
+}
+</code></pre>
+
+<p>Java枚举也是一个完美的例子，你可以提供一个很好的面向对象的API，并且也可以像以前一样，用简单而有效的整数逻辑来实现。</p>
+
+<p><strong>在上一个项目中，我使用了很多枚举作为类的替代品:它们被保证是单例的、有顺序的、hashcode、equals和直接的正反序列化，让源代码看上去不再混乱不堪</strong></p>
+
+<p>如果你使用Value Object，且可以用一组限定的实例来表示域的一部分，那么Enum就是你所需要的！这有点像Scala中的Sealed Case Class，除了它在编译时就已经将这组实例给定义好了。（在编译时，就要确定有哪些实例的确是一个限制/劣势，但是现在开发都是持续交付的，如果真的需要新增一个实例，可以在下一个版本中发布）</p>
+
+<hr />
+
+<h2 id="适用于策略模式">适用于策略模式</h2>
+
+<p>我们借用著名的欧洲视觉歌唱大赛的系统来作为一个例子;就每一期节目，希望能够通过配置的方式来决定是否通知观众。这很重要。让我们用枚举来实现：</p>
+
+<pre><code class="language-Java">/** The policy on how to notify the user of any Eurovision song contest event */
+public enum EurovisionNotification {
+
+	/** I love Eurovision, don't want to miss it, never! */
+	ALWAYS() {
+		@Override
+		public boolean mustNotify(String eventCity, String userCity) {
+			return true;
+		}
+	},
+
+	/**
+	 * I only want to know about Eurovision if it takes place in my city, so
+	 * that I can take holidays elsewhere at the same time
+	 */
+	ONLY_IF_IN_MY_CITY() {
+		// a case of flyweight pattern since we pass all the extrinsi data as
+		// arguments instead of storing them as member data
+		@Override
+		public boolean mustNotify(String eventCity, String userCity) {
+			return eventCity.equalsIgnoreCase(userCity);
+		}
+	},
+
+	/** I don't care, I don't want to know */
+	NEVER() {
+		@Override
+		public boolean mustNotify(String eventCity, String userCity) {
+			return false;
+		}
+	};
+
+	// no default behavior
+	public abstract boolean mustNotify(String eventCity, String userCity);
+
+}
+</code></pre>
+
+<p><strong>在代码中，首先定义了一个抽象方法，在每个实例中编写对应的逻辑实现。（译者注：试了一下，其实也可以通过implements一个/多个接口来扩展行为）</strong></p>
+
+<p>让我们通过一个简单的测试来看一下效果：</p>
+
+<pre><code class="language-Java">@Test
+public void notify_users_in_Baku_only() {
+	assertThat(ONLY_IF_IN_MY_CITY.mustNotify(&quot;Baku&quot;, &quot;BAKU&quot;)).isTrue();
+	assertThat(ONLY_IF_IN_MY_CITY.mustNotify(&quot;Baku&quot;, Paris&quot;)).isFalse();
+}
+</code></pre>
+
+<p>同样，无需switch条件来选择具体的行为，而是依赖于多态。通常来说，除了存在有依赖性，在使用枚举时并不需要太多的Switch判断。例如，当枚举作为数据传输对象(DTO)中的一部分属性时，你不希望在enum中对内部代码有任何依赖。</p>
+
+<p>由于策略模式通常是由配置控制的，所以对字符串的内置序列化也方便保存不同的设置。</p>
+
+<hr />
+
+<h2 id="完美匹配状态模式">完美匹配状态模式</h2>
+
+<p>和策略模式一样，Java的枚举也适合于有限状态机。因为根据定义，可能的状态集是有限的。
+让我们来看一个Baby状态的例子，并利用枚举来实现：</p>
+
+<pre><code class="language-Java">/**
+ * The primary baby states (simplified)
+ */
+public enum BabyState {
+
+	POOP(null), SLEEP(POOP), EAT(SLEEP), CRY(EAT);
+
+	private final BabyState next;
+
+	private BabyState(BabyState next) {
+		this.next = next;
+	}
+
+	public BabyState next(boolean discomfort) {
+		if (discomfort) {
+			return CRY;
+		}
+		return next == null ? EAT : next;
+	}
+}
+</code></pre>
+
+<p>还是一样，通过一些单元测试来看一下状态是转移的：</p>
+
+<pre><code class="language-Java">@Test
+public void eat_then_sleep_then_poop_and_repeat() {
+	assertThat(EAT.next(NO_DISCOMFORT)).isEqualTo(SLEEP);
+	assertThat(SLEEP.next(NO_DISCOMFORT)).isEqualTo(POOP);
+	assertThat(POOP.next(NO_DISCOMFORT)).isEqualTo(EAT);
+}
+
+@Test
+public void if_discomfort_then_cry_then_eat() {
+	assertThat(SLEEP.next(DISCOMFORT)).isEqualTo(CRY);
+	assertThat(CRY.next(NO_DISCOMFORT)).isEqualTo(EAT);
+}
+</code></pre>
+
+<p>是的，我们可以枚举之间互相引用，不过有个限制：被引用的枚举必须在使用前声明。在这个例子里，我们有一个循环，所以我们需要打破这个循环，在运行时对于CRY状态进行额外的处理。</p>
+
+<hr />
+
+<h2 id="专为枚举定制的集合类">专为枚举定制的集合类</h2>
+
+<p>JDK中还提供了专门的集合类:EnumMap和EnumSet，分别实现Map和Set接口。这两个集合类和普通的集合类一样，但是在内部，它们利用了枚举的整型特性，进行了优化。简而言之，隐藏在优雅的界面背后的是老式的，c风格的数据结构和风格(如位屏蔽等)。不必为了效率而在API上进行妥协！</p>
+
+<p>还是用一个扑克的例子来说明：</p>
+
+<pre><code class="language-Java">public enum AuthorityLevel {
+
+	/** make decision as the manager */
+	TELL,
+
+	/** convince people about decision */
+	SELL,
+
+	/** get input from team before decision */
+	CONSULT,
+
+	/** make decision together with team */
+	AGREE,
+
+	/** influence decision made by the team */
+	ADVISE,
+
+	/** ask feedback after decision by team */
+	INQUIRE,
+
+	/** no influence, let team work it out */
+	DELEGATE;
+}
+</code></pre>
+
+<p>一共有7张牌，前3张是更倾向于控制的，中间卡是平衡的，最后的3张牌是更有代表导向的(我做了这个解释，请参考他的书来解释)。在具体扑克玩法中，每个玩家在给定的情况下选择一张牌，并且可以获得与牌价(从1到7)的点数，除了“最高少数”的玩家。</p>
+
+<p>利用上面提到的特性，我们可以容易的做到比较以及选择</p>
+
+<pre><code class="language-Java">public int numberOfPoints() {
+	return ordinal() + 1;
+}
+
+// It's ok to use the internal ordinal integer for the implementation
+public boolean isControlOriented() {
+	return ordinal() &lt; AGREE.ordinal();
+}
+
+// EnumSet is a Set implementation that benefits from the integer-like
+// nature of the enums
+public static Set DELEGATION_LEVELS = EnumSet.range(ADVISE, DELEGATE);
+
+// enums are comparable hence the usual benefits
+public static AuthorityLevel highest(List levels) {
+	return Collections.max(levels);
+}
+</code></pre>
+
+<p><strong>说明： EnumSet提供了方便的静态工厂方法，例如range(to，from)创建一个集合，它包含了我们所需的ADVICE，INQUIRE和DELEGATE。为了计算“ highest minority”，我们从最高的扑克开始，这只是查找最大值，因为枚举实现了comparable接口。所以是可以比较的。</strong></p>
+
+<p>最后看一下EnumMap的例子（凡是我们需要在Map中使用一个枚举作为Key，我们都应该使用EnumMap）</p>
+
+<pre><code class="language-Java">// Using an EnumMap to represent the votes by authority level
+@Test
+public void votes_with_a_clear_majority() {
+	final Map&lt;AuthorityLevel, Integer&gt; votes = new EnumMap(AuthorityLevel.class);
+	votes.put(SELL, 1);
+	votes.put(ADVISE, 3);
+	votes.put(INQUIRE, 2);
+	assertThat(votes.get(ADVISE)).isEqualTo(3);
+}
+</code></pre>
+
+<hr />
+
+<h2 id="总结">总结</h2>
+
+<p>喜欢Java枚举的理由：它们非常契合域驱动设计中的值对象，因为在域驱动设计中，每一种可能的值都是有界的。当然，需要确保每个枚举常量也是不可变的，这样就得到了正确的equals、hashcode、toString、String或Integer的序列化、Singleton风格还有高效的集合，而且代码都很精炼。</p>
+
+<hr />
+
 <blockquote>
-<p>Arch Linux与其他主要发行版的一个主要不同点是允许用户能够根据喜好安装来自社区仓库(Arch User Repository or Simply AUR)的软件包。这是一个完全由社区驱动的软件仓库，其中包含了约44,000多个软件包。 然而，用户无法使用自带的pacman包管理器来安装这些第三方软件。只能自己下载，校验后再安装。Yaourt(<strong>Y</strong>et <strong>A</strong>n<strong>O</strong>ther <strong>U</strong>ser <strong>R</strong>epository <strong>T</strong>ool), 用于便利地下载AUR仓库中的软件。 简而言之，Yaourt是在Pacman上提供了AUR软件的安装和其他一些新的功能。</p>
+<p><a href="http://cyrille.martraire.com/2012/08/java-enums-you-have-grace-elegance-and-power-and-this-is-what-i-love/">原文链接</a>   作者：Cyrille Martraire    译者：屹信</p>
 </blockquote>
-
-<p>在这篇博客里，我会介绍在Arch上安装Yaourt的两种方式:</p>
-
-<ol>
-<li>通过他人的仓库安装Yaourt</li>
-<li>利用AUR安装Yaourt
-[注]<em>第一种方式会更容易一些</em></li>
-</ol>
-
-<h2 id="1-通过他人的仓库安装yaourt">1. 通过他人的仓库安装Yaourt</h2>
-
-<p>打开并编辑Pacman的配置文件:</p>
-
-<pre><code class="language-bash">sudo vim /etc/pacman.conf
-</code></pre>
-
-<p>在文件末尾增加一个新的仓库源:</p>
-
-<pre><code class="language-xml">[archlinuxfr]
-SigLevel = Never
-Server = http://repo.archlinux.fr/$arch
-</code></pre>
-
-<p>保存修改。</p>
-
-<p>最后， 更新仓库内容并安装Yaourt</p>
-
-<pre><code>sudo pacman -Sy yaourt
-</code></pre>
-
-<p>这样就安装好了，接下来就可以直接使用Yaourt进行包的管理了。用法和Pacman相同，可以通过-h参数查看命令的帮助信息。</p>
-
-<h2 id="2-利用aur安装yaourt">2. 利用AUR安装Yaourt</h2>
-
-<p>在正式安装Yaourt之前，需要先安装一些依赖的包。执行：</p>
-
-<pre><code>sudo pacman -S --needed base-devel git wget yajl
-</code></pre>
-
-<p>在完成这些基本依赖后，我们需要下载并安装package-query来构建和运行Yaourt。
-可以通过Git获得package-query的代码：</p>
-
-<pre><code>git clone https://aur.archlinux.org/package-query.git
-</code></pre>
-
-<p>clone完成后，进入package-query文件夹，编译并安装：</p>
-
-<pre><code>cd package-query/
-makepkg -si
-</code></pre>
-
-<p>稍等片刻，Package-query就安装成功了。接下来，我们需要clone最新的Yaourt代码：</p>
-
-<pre><code>git clone https://aur.archlinux.org/yaourt.git
-</code></pre>
-
-<p>同样，编译并安装Yaourt：</p>
-
-<pre><code>cd yaourt/
-makepkg -si
-</code></pre>
-
-<p>至此，Yaourt就安装完成了。</p>
-
-<p>[注]还可以安装aurvote小工具，给你喜欢的软件包投票打分。</p>
-
-<p>原文链接: <a href="https://www.ostechnix.com/install-yaourt-arch-linux/">How To Install Yaourt In Arch Linux</a></p>
               
             </div>
           </div>
@@ -330,7 +497,7 @@ makepkg -si
         <ul class="post-actions post-action-nav">
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/" data-tooltip="分布式系统中的一致性协议">
+                <a class="post-action-btn btn btn--disabled">
               
                 <i class="fa fa-angle-left"></i>
                 <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -338,7 +505,7 @@ makepkg -si
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/09/my-new-blog/" data-tooltip="My New Blog">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/09/review-cookie/" data-tooltip="回顾Cookie">
               
                 <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                 <i class="fa fa-angle-right"></i>
@@ -355,19 +522,19 @@ makepkg -si
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713.github.io/2017/10/java-enums/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713.github.io/2017/10/java-enums/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713.github.io/2017/10/java-enums/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -414,7 +581,7 @@ makepkg -si
         <ul class="post-actions post-action-nav">
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/" data-tooltip="分布式系统中的一致性协议">
+                <a class="post-action-btn btn btn--disabled">
               
                 <i class="fa fa-angle-left"></i>
                 <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -422,7 +589,7 @@ makepkg -si
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/09/my-new-blog/" data-tooltip="My New Blog">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/09/review-cookie/" data-tooltip="回顾Cookie">
               
                 <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                 <i class="fa fa-angle-right"></i>
@@ -439,19 +606,19 @@ makepkg -si
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713.github.io/2017/10/java-enums/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713.github.io/2017/10/java-enums/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713.github.io/2017/10/java-enums/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -481,19 +648,19 @@ makepkg -si
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F09%2Fhow-to-install-yarout-on-arch%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F10%2Fjava-enums%2F">
           <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F09%2Fhow-to-install-yarout-on-arch%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F10%2Fjava-enums%2F">
           <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F09%2Fhow-to-install-yarout-on-arch%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F10%2Fjava-enums%2F">
           <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
         </a>
       </li>
@@ -703,9 +870,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/haoding0713.github.io\/2017\/09\/how-to-install-yarout-on-arch\/';
+          this.page.url = 'https:\/\/haoding0713.github.io\/2017\/10\/java-enums\/';
           
-            this.page.identifier = '\/2017\/09\/how-to-install-yarout-on-arch\/'
+            this.page.identifier = '\/2017\/10\/java-enums\/'
           
         };
         (function() {

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on Coder DH&#39;s Blog</title>
+    <link>https://haoding0713.github.io/categories/java/</link>
+    <description>Recent content in Java on Coder DH&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 11 Oct 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://haoding0713.github.io/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>【译】Java语言之Enums： 集优雅与可玩性与一体</title>
+      <link>https://haoding0713.github.io/2017/10/java-enums/</link>
+      <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://haoding0713.github.io/2017/10/java-enums/</guid>
+      <description>&lt;p&gt;话说Java 8已经到来(译者补充：时至今日，Java 9也呼之欲出)，但我们真的已经非常了解从Java 5那时就引入的Enum（枚举）了吗？ 枚举在Java语言中的作用被低估了，除了定义/保存常量之类的日常用法，其实它还有更多的用武之地。
+&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

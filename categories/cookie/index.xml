@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Cookie on Coder DH&#39;s Blog</title>
-    <link>http://haoding0713.github.io/categories/cookie/</link>
+    <link>https://haoding0713.github.io/categories/cookie/</link>
     <description>Recent content in Cookie on Coder DH&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Thu, 21 Sep 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://haoding0713.github.io/categories/cookie/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://haoding0713.github.io/categories/cookie/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>回顾Cookie</title>
-      <link>http://haoding0713.github.io/2017/09/review-cookie/</link>
+      <link>https://haoding0713.github.io/2017/09/review-cookie/</link>
       <pubDate>Thu, 21 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://haoding0713.github.io/2017/09/review-cookie/</guid>
+      <guid>https://haoding0713.github.io/2017/09/review-cookie/</guid>
       <description>&lt;p&gt;最近系统爆出了一个奇怪的问题，用户A购买的订单莫名漂移，最后到了用户B的名下。问题排查过程中，从最开始的迷茫，多向出击尝试找到问题，到逐步缩小范围，定位问题。最终把问题给找到了，也进行了修复。过程中由于对一些技术细节把握不准，费去了不少的时间。特此做一个梳理，整理成文，作为经验总结。
 &lt;/p&gt;</description>
     </item>
