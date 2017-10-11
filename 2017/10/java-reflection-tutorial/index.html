@@ -1,0 +1,1051 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.27.1 with theme Tranquilpeak 0.4.1-BETA">
+    <title>Java反射教程</title>
+    <meta name="author" content="Hao DING">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="https://haoding0713.github.io/favicon.png">
+    
+
+    
+    <meta name="description" content="Java反射为程序提供了无需在编译时知道具体的类，方法等名称，并在运行时检查类，接口，字段和方法的能力。使用反射可以实例化新对象，调用方法和获取/设置字段值。本文不仅会涉及Java反射的基础知识，例如如何使用数组，注释，泛型和动态代理，并进行动态类加载和重新加载。最后还会解释一些有关运行时获取泛型的常见问题。比如泛型信息并不是在运行时完全丢失。
+">
+    <meta property="og:description" content="Java反射为程序提供了无需在编译时知道具体的类，方法等名称，并在运行时检查类，接口，字段和方法的能力。使用反射可以实例化新对象，调用方法和获取/设置字段值。本文不仅会涉及Java反射的基础知识，例如如何使用数组，注释，泛型和动态代理，并进行动态类加载和重新加载。最后还会解释一些有关运行时获取泛型的常见问题。比如泛型信息并不是在运行时完全丢失。
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Java反射教程">
+    <meta property="og:url" content="/2017/10/java-reflection-tutorial/">
+    <meta property="og:site_name" content="Coder DH&#39;s Blog">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Coder DH&#39;s Blog">
+    <meta name="twitter:description" content="Java反射为程序提供了无需在编译时知道具体的类，方法等名称，并在运行时检查类，接口，字段和方法的能力。使用反射可以实例化新对象，调用方法和获取/设置字段值。本文不仅会涉及Java反射的基础知识，例如如何使用数组，注释，泛型和动态代理，并进行动态类加载和重新加载。最后还会解释一些有关运行时获取泛型的常见问题。比如泛型信息并不是在运行时完全丢失。
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="http://static.dingtalk.com/media/lALPAAAAAQsoljzNA4rNA4o_906_906.png?auth_bizType=IM&auth_bizEntity=%7B%22cid%22%3A%22393306%3A4248001%22%2C%22msgId%22%3A%2232797715935%22%7D&open_id=393306">
+    
+
+    
+      <meta property="og:image" content="https://haoding0713.github.io/img/jvm_class_access_flag.png">
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://haoding0713.github.io/css/style-fpbzgxsy0kgmdvyrj5ykkg6ratccrk3gocmaqn4xpcjywmv5dteilzucro4f.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://haoding0713.github.io/">Coder DH&#39;s Blog</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://haoding0713.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="http://static.dingtalk.com/media/lALPAAAAAQsoljzNA4rNA4o_906_906.png?auth_bizType=IM&amp;auth_bizEntity=%7B%22cid%22%3A%22393306%3A4248001%22%2C%22msgId%22%3A%2232797715935%22%7D&amp;open_id=393306" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://haoding0713.github.io/#about">
+          <img class="sidebar-profile-picture" src="http://static.dingtalk.com/media/lALPAAAAAQsoljzNA4rNA4o_906_906.png?auth_bizType=IM&amp;auth_bizEntity=%7B%22cid%22%3A%22393306%3A4248001%22%2C%22msgId%22%3A%2232797715935%22%7D&amp;open_id=393306" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Hao DING</h4>
+        
+          <h5 class="sidebar-profile-bio">Pain past is pleasure.</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://haoding0713.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://haoding0713.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://haoding0713.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://haoding0713.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://haoding0713.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/haoding0713" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://stackoverflow.com/users/636472/kakawait" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-stack-overflow"></i>
+      
+      <span class="sidebar-button-desc">Stack Overflow</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://haoding0713.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-center">
+  
+    <h1 class="post-title" itemprop="headline">
+      Java反射教程
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2017-10-11T00:00:00Z">
+        
+  十月 11, 2017
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://haoding0713.github.io/categories/java">Java</a>
+    
+  
+
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>Java反射为程序提供了无需在编译时知道具体的类，方法等名称，并在运行时检查类，接口，字段和方法的能力。使用反射可以实例化新对象，调用方法和获取/设置字段值。本文不仅会涉及Java反射的基础知识，例如如何使用数组，注释，泛型和动态代理，并进行动态类加载和重新加载。最后还会解释一些有关运行时获取泛型的常见问题。比如泛型信息并不是在运行时完全丢失。
+</p>
+
+<h1 id="1-类的反射-reflection-classes">1. 类的反射（Reflection - Classes）</h1>
+
+<hr />
+
+<h2 id="the-class-object">The Class Object</h2>
+
+<h4 id="我们都知道-所有编写的代码最后会被编译成为字节码-class后缀的-文件-虚拟机-jvm-通过读取-class文件来加载所需要的类">我们都知道，所有编写的代码最后会被编译成为字节码（.class后缀的）文件，虚拟机（JVM）通过读取.class文件来加载所需要的类</h4>
+
+<h4 id="如果我们想要探究一个类的内部结构-我们首先需要获取到它的class对象-每一个类-在被jvm加载后-会有一个对应的class对象">如果我们想要探究一个类的内部结构，我们首先需要获取到它的Class对象——每一个类，在被JVM加载后，会有一个对应的Class对象。</h4>
+
+<pre><code class="language-Java">// 假设我们有一个MyClass类如下
+public class MyClass {
+
+    private String message;
+
+    public MyClass(){
+    }
+
+    public MyClass(String message) {
+        this.message = message;
+    }
+
+    public String doSomething(){
+        System.out.println(&quot;MyClass do something !&quot;);
+        return this.message;
+    }
+
+    public String doAnotherThing(String code) {
+        System.out.println(&quot;MyClass do another thing !&quot;);
+        return code;
+    }
+}
+
+</code></pre>
+
+<hr />
+
+<h2 id="获取class对象的方法">获取Class对象的方法</h2>
+
+<ul>
+<li>编译期制定获取：<code>Class myClass = MyClass.class;</code></li>
+<li>运行时动态获取：<code>Class.forName(&quot;package.full.path.MyClass&quot;)</code></li>
+</ul>
+
+<hr />
+
+<h2 id="name-of-class">Name Of Class</h2>
+
+<ul>
+<li>全限定类名： <code>String className = myClass.getName();</code></li>
+<li>简单的类名： <code>String className = myClass.getSimpleName();</code></li>
+</ul>
+
+<hr />
+
+<h2 id="modifiers-of-class">Modifiers Of Class</h2>
+
+<ul>
+<li>类的限定符： <code>int modifiers = myClass.getModifiers();</code></li>
+<li>java.lang.reflect.Modifier提供的检测方法，比如 <code>Modifier.isAbstract(int modifiers)</code></li>
+</ul>
+
+<blockquote>
+<p><strong>知识点回顾</strong> : 关于.class文件结构中的访问标识
+access_flag用于识别一些类/接口层次的访问信息，包括Class是类还是接口；是否是Public；是否是Abstract
+由两个字节（16位）组成的访问标志，目前只定义了其中8个
+<img src="https://haoding0713.github.io/img/jvm_class_access_flag.png" alt="access_flag" /></p>
+</blockquote>
+
+<hr />
+
+<h2 id="package-of-class">Package Of Class</h2>
+
+<ul>
+<li>类所在的包： <code>Package package = myClass.getPackage()</code></li>
+</ul>
+
+<hr />
+
+<h2 id="superclass-of-class">Superclass Of Class</h2>
+
+<ul>
+<li>类的父类： <code>Class  superclass  = myClass.getSuperclass()</code></li>
+</ul>
+
+<hr />
+
+<h2 id="implemented-interfaces-of-class">Implemented Interfaces Of Class</h2>
+
+<ul>
+<li>类的接口： <code>Class[] interfaces  = myClass.getInterfaces()</code></li>
+<li>注意：仅返回当前类指定实现的接口，父类实现的接口不在返回的数组内。通过遍历当前类及父类，则可以获得完整的接口列表</li>
+</ul>
+
+<hr />
+
+<h2 id="constructors-of-class">Constructors Of Class</h2>
+
+<ul>
+<li>类的构造器： <code>Constructor[] constructors  = myClass.getConstructors()</code></li>
+<li>返回的数组对应类中申明的每一个构造函数。</li>
+<li>通过构造器初始化对象：</li>
+</ul>
+
+<pre><code class="language-java">final Constructor paramConstructor = MyClass.class.getConstructor(String.class);
+final MyClass instance = (MyClass) paramConstructor.newInstance(&quot;some string&quot;);
+</code></pre>
+
+<hr />
+
+<h2 id="methods-of-class">Methods Of Class</h2>
+
+<ul>
+<li>类的方法： <code>Method[] methods  = myClass.getMethods()</code></li>
+<li>方法的参数和返回值：</li>
+</ul>
+
+<pre><code class="language-Java">final Method method = myClass.getMethod(&quot;doSomething&quot;, null);
+final Class[] parameterTypes = method.getParameterTypes(); 
+final Class returnType = method.getReturnType();
+</code></pre>
+
+<ul>
+<li>通过Method对象调用方法</li>
+</ul>
+
+<pre><code class="language-Java">final MyClass instance = myClass.newInstance();
+final Method method =  myClass.getMethod(&quot;doSomething&quot;, null);
+final Object returnValue = method.invoke(instance, null);
+</code></pre>
+
+<hr />
+
+<h2 id="fields-of-class">Fields Of Class</h2>
+
+<ul>
+<li>类的属性： <code>Field[] fields  = myClass.getFields()</code></li>
+<li>获取/设置属性的值：</li>
+</ul>
+
+<pre><code class="language-java">final Class myClass = MyClass.class
+final Field field = myClass.getField(&quot;someField&quot;);
+final MyClass instance = new MyClass();
+final Object value = field.get(instance);
+field.set(objetInstance, value);
+</code></pre>
+
+<ul>
+<li><strong>注意</strong>： 如果是static的方法，无需传递具体实例，而是传入null到底一个参数，例如field.set(null, value)；</li>
+</ul>
+
+<hr />
+
+<h1 id="2-访问私有属性和方法-private-fields-methods">2. 访问私有属性和方法（Private Fields &amp; Methods ）</h1>
+
+<h2 id="通过反射-我们可以访问那些类中的私有属性和方法-仅在反射时生效-普通的代码因为编译器的原因-是无法做到的">通过反射，我们可以访问那些类中的私有属性和方法（仅在反射时生效，普通的代码因为编译器的原因，是无法做到的）</h2>
+
+<h2 id="访问私有属性和方法">访问私有属性和方法</h2>
+
+<pre><code class="language-Java">MyClass instance = new MyClass();
+try {
+	final Field field = myKlass.getDeclaredField(&quot;message&quot;);
+	field.setAccessible(true);
+	final String valueOfField = (String) field.get(instance);
+	System.out.println(valueOfField);
+
+	final Method privateMethod = myKlass.getDeclaredMethod(&quot;ownPrivateMethod&quot;, null);
+	privateMethod.setAccessible(true);
+	final Object returnValue = privateMethod.invoke(instance, null);
+	System.out.println(returnValue);
+
+} catch (NoSuchFieldException e) {
+	e.printStackTrace();
+} catch (IllegalAccessException e) {
+	e.printStackTrace();
+} catch (NoSuchMethodException e) {
+	e.printStackTrace();
+} catch (InvocationTargetException e) {
+	e.printStackTrace();
+}
+</code></pre>
+
+<hr />
+
+<h1 id="3-注解-annotation-的反射">3. 注解（Annotation）的反射</h1>
+
+<h2 id="注解-annotation-是从java-5开始引入的一个特性-注解-annotation-是一种类型的说明或者类型的元数据-被允许添加在类-属性-方法以及方法的参数上-注解-annotation-既可以在编译期被处理-也可以在运行时通过反射来获取">注解（Annotation）是从Java 5开始引入的一个特性。注解（Annotation）是一种类型的说明或者类型的元数据，被允许添加在类、属性、方法以及方法的参数上。注解（Annotation）既可以在编译期被处理，也可以在运行时通过反射来获取。</h2>
+
+<hr />
+
+<h2 id="class-annotation">Class Annotation</h2>
+
+<pre><code class="language-Java">final Class myClass = MyClass.class;
+final Annotation[] annotations = myClass.getAnnotations();
+
+for(final Annotation annotation : annotations){
+    if(annotation instanceof MyAnnotation){
+        final MyAnnotation myAnnotation = (MyAnnotation) annotation;
+        System.out.println(&quot;name: &quot; + myAnnotation.name());
+        System.out.println(&quot;value: &quot; + myAnnotation.value());
+    }
+}
+</code></pre>
+
+<h2 id="method-annotation">Method Annotation</h2>
+
+<h4 id="原理同上-通过class获取到method对象后-调用getdeclaredannotations-方法获取该方法上的注解">原理同上，通过Class获取到Method对象后，调用getDeclaredAnnotations() 方法获取该方法上的注解。</h4>
+
+<h4 id="方法参数的注解-从上面的例子我们不难推测出-通过method对象执getparameterannotations-方法便可以获取到参数的注解">方法参数的注解，从上面的例子我们不难推测出，通过Method对象执getParameterAnnotations()方法便可以获取到参数的注解。</h4>
+
+<blockquote>
+<p><strong>需要注意的是</strong> <code>Annotation[][] parameterAnnotations = method.getParameterAnnotations();</code> 返回的是一个二维数组，意味着每一个参数其实可以拥有多个注解。</p>
+</blockquote>
+
+<h2 id="field-annotation">Field Annotation</h2>
+
+<h4 id="属性上的注解获取方式-和上一段中提到的类和方法的注解是相同的原理-可以自己动手查看一下源代码-写一段代码执行一下-看一下结果是不是和预期的一样">属性上的注解获取方式，和上一段中提到的类和方法的注解是相同的原理。可以自己动手查看一下源代码，写一段代码执行一下，看一下结果是不是和预期的一样。</h4>
+
+<hr />
+
+<h1 id="4-泛型-generic-的反射">4. 泛型（Generic）的反射</h1>
+
+<blockquote>
+<p>我们都知道，Java中的泛型基本上都是在编译器这个层次来实现的。在生成的Java字节代码中是不包含泛型中的类型信息的。因此正确理解泛型概念的首要前提是理解类型擦除（type erasure）。很多文章会说泛型的具体类型信息因为被擦除，故而无法在运行时得到，这个观点并不完全正确。在下面的例子里面，我们将会通过一些例子来试着访问泛型的信息。</p>
+</blockquote>
+
+<h2 id="创建一个泛型类或者使用诸如-java-util-list-容器类时">创建一个泛型类或者使用诸如<code>java.util.List</code>容器类时：</h2>
+
+<pre><code class="language-Java">final List&lt;String&gt; stringList = new ArrayList&lt;String&gt;();
+        
+final TypeVariable[] tvs = stringList.getClass().getTypeParameters();
+for(final TypeVariable item : tvs) {
+	System.out.println(item.toString());
+}
+
+final Type type = stringList.getClass().getGenericSuperclass();
+System.out.println(type);
+
+// 输出结果：
+// E
+// java.util.AbstractList&lt;E&gt;
+</code></pre>
+
+<h4 id="从上面的输出结果不难看出-我们在运行时去查看泛型类的参数类型时-是无法得到确切的类型参数-这么做是有道理的-因为类型参数在应用中可以接受任何类型-但接下来当我们访问类中用泛型申明的属性和方法时-可以确定在运行时的具体类型参数">从上面的输出结果不难看出：我们在运行时去查看泛型类的参数类型时，是无法得到确切的类型参数。这么做是有道理的，因为类型参数在应用中可以接受任何类型。但接下来当我们访问类中用泛型申明的属性和方法时，可以确定在运行时的具体类型参数。</h4>
+
+<h4 id="让我们来看一个例子">让我们来看一个例子：</h4>
+
+<pre><code class="language-Java">public class MyClass {
+
+    private String message;
+
+    private List&lt;String&gt; listFieldWithGeneric = new ArrayList&lt;String&gt;();
+
+    public void setListFieldWithGeneric(List&lt;String&gt; listFieldWithGeneric) {
+        this.listFieldWithGeneric = listFieldWithGeneric;
+    }
+
+    public List&lt;String&gt; getListFieldWithGeneric() {
+        return this.listFieldWithGeneric;
+    }
+}
+</code></pre>
+
+<h4 id="利用第一部分提到的基本反射原理-我们可以获得-getlistfieldwithgeneric-方法准确的返回类型-是-list-string-而不是list-raw-type-下面是测试的代码">利用第一部分提到的基本反射原理，我们可以获得<code>getListFieldWithGeneric()</code>方法准确的返回类型，是 List<String>而不是List（Raw Type）。下面是测试的代码：</h4>
+
+<pre><code class="language-Java">Method method = MyClass.class.getMethod(&quot;getListFieldWithGeneric&quot;, null);
+Type returnType = method.getGenericReturnType();
+
+if(returnType instanceof ParameterizedType) {
+    ParameterizedType type = (ParameterizedType) returnType;
+    Type[] typeArguments = type.getActualTypeArguments();
+    for(Type typeArgument : typeArguments){
+        Class typeArgClass = (Class) typeArgument;
+        System.out.println(&quot;typeArgClass = &quot; + typeArgClass);
+    }
+}
+
+// 输出结果
+// typeArgClass = class java.lang.String
+</code></pre>
+
+<h4 id="到这里我们就已经能够看出-在运行期-类中包含泛型的属性以及方法-是可以通过反射获取到实际传入的类型参数">到这里我们就已经能够看出，在运行期，类中包含泛型的属性以及方法，是可以通过反射获取到实际传入的类型参数。</h4>
+
+<h4 id="总结一下-在运行期无法得到泛型的类型参数-但当一个类的属性或者方法中使用泛型的时候-可以知道具体传入的类型参数是什么">总结一下：在运行期无法得到泛型的类型参数，但当一个类的属性或者方法中使用泛型的时候，可以知道具体传入的类型参数是什么。</h4>
+
+<hr />
+
+<h1 id="5-数组-array-的反射">5. 数组（Array）的反射</h1>
+
+<h2 id="随着java容器类的推广-数组在java代码中被使用的频率已经很低了-不过我们还是花一点时间看一下java中的数组">随着Java容器类的推广，数组在Java代码中被使用的频率已经很低了。不过我们还是花一点时间看一下Java中的数组。</h2>
+
+<h4 id="java-lang-reflect-array-是对数组进行反射时需要的类-它与-java-util-arrays-的用处不同-后者属于java集合框架-包含的是排序-集合转换等方法"><code>java.lang.reflect.Array</code>是对数组进行反射时需要的类，它与<code>java.util.Arrays</code>的用处不同，后者属于Java集合框架，包含的是排序，集合转换等方法。</h4>
+
+<hr />
+
+<h2 id="如何获取数组的class">如何获取数组的Class？</h2>
+
+<h4 id="在第一部分里面-获取一个类的class对象-我们知道有静态和动态两种方式-对于数组静态获取方式-是比较简单的-class-stringarrayclass-string-class-这样我们能得到string数组的class对象了">在第一部分里面，获取一个类的Class对象，我们知道有静态和动态两种方式。对于数组静态获取方式 是比较简单的： <code>Class stringArrayClass = String[].class;</code> 这样我们能得到String数组的Class对象了。</h4>
+
+<h4 id="那么动态的方式呢-由于jvm实现数组方式的原因-我们并不能直接-通过-class-intclass2-class-forname-int-的方式来获取-因为它会抛出-classnotfoundexception-异常">那么动态的方式呢？ 由于JVM实现数组方式的原因，我们并不能直接 通过<code>Class intClass2 = Class.forName(&quot;int&quot;);</code>的方式来获取，因为它会抛出<code>ClassNotFoundException</code>异常。</h4>
+
+<blockquote>
+<p><strong>知识点回顾</strong> : 关于.class文件结构中数组的表示。
+对于数组类型，每一个维度将使用一个前置的<code>[</code>字符来描述，比如定义想String[][]这样的二维数组，将被记录为<code>[[Ljava.util.String;</code>。在JVM 规范中，对于字段的描述符规定如下图所示：
+<img src="https://haoding0713.github.io/img/jvm_class_field_descriptor.png" alt="field_descriptor" /></p>
+</blockquote>
+
+<h4 id="所以比较-邪门-的写法是-class-stringarrayclass-class-forname-ljava-lang-string">所以比较“邪门”的写法是<code>Class stringArrayClass = Class.forName(&quot;[Ljava.lang.String;&quot;);</code></h4>
+
+<h4 id="日常应用开发中-应该尽量避免这类用法的出现-而对于一些库或者框架来说-在无法避免的情况下-可以自己进行一层封装-再借用-array-newinstance-方法来动态反射-下面是一个例子">日常应用开发中，应该尽量避免这类用法的出现。而对于一些库或者框架来说，在无法避免的情况下，可以自己进行一层封装，再借用<code>Array.newInstance()</code>方法来动态反射。下面是一个例子：</h4>
+
+<pre><code class="language-Java">
+// 对类型进行一次转换封装
+public Class getClass(String className){
+  if(&quot;int&quot; .equals(className)) return int .class;
+  if(&quot;long&quot;.equals(className)) return long.class;
+  ...
+  return Class.forName(className);
+}
+
+// 利用newInstance方法，创建出数组实例后，再获取Class对象
+final Class theClass = getClass(theClassName);
+final Class stringArrayClass = Array.newInstance(theClass, 0).getClass();
+</code></pre>
+
+<hr />
+
+<h1 id="6-动态代理-dynamic-proxy">6. 动态代理（Dynamic Proxy）</h1>
+
+<blockquote>
+<p>上面详细介绍了在如何使用反射来获取Class的信息。接下来可以看一个实际中的例子，来体会一下反射的威力。</p>
+</blockquote>
+
+<h4 id="平时我们自己写代码的时候-时不时会用到spring-aop-异步调用等概念-而这些技术都和动态代理有着紧密的关系">平时我们自己写代码的时候，时不时会用到Spring AOP、异步调用等概念，而这些技术都和动态代理有着紧密的关系。</h4>
+
+<p>让我们看一下JDK如何实现动态代理。</p>
+
+<ol>
+<li>第一步：实现一个基于InvocationHandler接口的处理类</li>
+<li>第二部：调用 <code>Object proxy = Proxy.newProxyInstance(ClassLoader loader, Class&lt;?&gt;[] interfaces,InvocationHandler h)</code> 方法，三个参数依次分别为类加载器，需要代理的接口，以及第一步中创建的具体的处理类</li>
+<li>第三部：将proxy方法通过类型转换成某一个接口，即可实现对该接口的代理。</li>
+</ol>
+
+<p><strong>重点</strong> 在newProxyInstance方法内是如何生成具体某一个Proxy的呢？</p>
+
+<pre><code class="language-Java">public static Object newProxyInstance(ClassLoader loader,Class&lt;?&gt;[] interfaces,InvocationHandler h) throws IllegalArgumentException
+{
+	final Class&lt;?&gt;[] intfs = interfaces.clone();
+	/*
+	 * Look up or generate the designated proxy class.
+	 */
+	Class&lt;?&gt; cl = getProxyClass0(loader, intfs);
+
+	/*
+	 * Invoke its constructor with the designated invocation handler.
+	 */
+        final Constructor&lt;?&gt; cons = cl.getConstructor(constructorParams);
+        final InvocationHandler ih = h;
+        ... 
+        return cons.newInstance(new Object[]{h});
+}
+</code></pre>
+
+<p>没错，是通过反射获取到构造函数后，利用<code>cons.newInstance(new Object[]{h});</code>来创建了Proxy的一个实例。</p>
+
+<hr />
+
+<h1 id="总结">总结</h1>
+
+<h2 id="通过jdk提供的反射-我们拥有了灵活地获取一个类-分析一个类-甚至创建一个类的能力-当然这里面牵扯到了字节码-正式借助了这个能力-才诞生了各种各样的强大框架">通过JDK提供的反射，我们拥有了灵活地获取一个类，分析一个类，甚至创建一个类的能力（当然这里面牵扯到了字节码）。正式借助了这个能力，才诞生了各种各样的强大框架。</h2>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                <i class="fa fa-angle-left"></i>
+                <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+              </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/10/java-enums/" data-tooltip="【译】Java语言之Enums： 集优雅与可玩性与一体">
+              
+                <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                <i class="fa fa-angle-right"></i>
+              </a>
+            </li>
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713.github.io/2017/10/java-reflection-tutorial/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713.github.io/2017/10/java-reflection-tutorial/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713.github.io/2017/10/java-reflection-tutorial/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 Hao DING. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                <i class="fa fa-angle-left"></i>
+                <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+              </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/10/java-enums/" data-tooltip="【译】Java语言之Enums： 集优雅与可玩性与一体">
+              
+                <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                <i class="fa fa-angle-right"></i>
+              </a>
+            </li>
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713.github.io/2017/10/java-reflection-tutorial/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713.github.io/2017/10/java-reflection-tutorial/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713.github.io/2017/10/java-reflection-tutorial/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F10%2Fjava-reflection-tutorial%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F10%2Fjava-reflection-tutorial%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F10%2Fjava-reflection-tutorial%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="http://static.dingtalk.com/media/lALPAAAAAQsoljzNA4rNA4o_906_906.png?auth_bizType=IM&amp;auth_bizEntity=%7B%22cid%22%3A%22393306%3A4248001%22%2C%22msgId%22%3A%2232797715935%22%7D&amp;open_id=393306" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Hao DING</h4>
+    
+      <div id="about-card-bio">Pain past is pleasure.</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Senior Developper
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        SH, CHINA
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="搜索" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://haoding0713.github.io/2017/10/java-reflection-tutorial/">
+                <h3 class="media-heading">Java反射教程</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Java反射为程序提供了无需在编译时知道具体的类，方法等名称，并在运行时检查类，接口，字段和方法的能力。使用反射可以实例化新对象，调用方法和获取/设置字段值。本文不仅会涉及Java反射的基础知识，例如如何使用数组，注释，泛型和动态代理，并进行动态类加载和重新加载。最后还会解释一些有关运行时获取泛型的常见问题。比如泛型信息并不是在运行时完全丢失。
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://haoding0713.github.io/2017/10/java-enums/">
+                <h3 class="media-heading">【译】Java语言之Enums： 集优雅与可玩性与一体</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>话说Java 8已经到来(译者补充：时至今日，Java 9也呼之欲出)，但我们真的已经非常了解从Java 5那时就引入的Enum（枚举）了吗？ 枚举在Java语言中的作用被低估了，除了定义/保存常量之类的日常用法，其实它还有更多的用武之地。
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://haoding0713.github.io/2017/09/review-cookie/">
+                <h3 class="media-heading">回顾Cookie</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>最近系统爆出了一个奇怪的问题，用户A购买的订单莫名漂移，最后到了用户B的名下。问题排查过程中，从最开始的迷茫，多向出击尝试找到问题，到逐步缩小范围，定位问题。最终把问题给找到了，也进行了修复。过程中由于对一些技术细节把握不准，费去了不少的时间。特此做一个梳理，整理成文，作为经验总结。
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/">
+                <h3 class="media-heading">分布式系统中的一致性协议</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>本文汇总并介绍了目前分布式系统中常见的一些一致性协议：两阶段提交协议，三阶段提交协议，向量时钟，RWN协议，paxos协议，Raft协议。作为是一个索引。
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/">
+                <h3 class="media-heading">[译]如何在Archlinux上安装Yaourt</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>9月一次日常系统升级后，导致Remarkable无法使用。重装了也没解决，最后发现是依赖的webkitgtk版本过旧，被官方标记为不安全，从仓库中移除。这过程中，Yaourt和AUR也被我翻来倒去地折腾，差点被玩坏。所以还是备份一下Yaourt的安装方式。
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://haoding0713.github.io/2017/09/my-new-blog/">
+                <h3 class="media-heading">My New Blog</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>新的博客。是记录，也是一种督促。
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://haoding0713.github.io/post/">
+                <h3 class="media-heading">Posts</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         7 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://haoding0713.github.io/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" integrity="sha256-IFHWFEbU2/+wNycDECKgjIRSirRNIDp2acEB5fvdVRU=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js" integrity="sha256-+mpyNVJsNt4rVXCw0F+pAOiB3YxmHgrbJsx4ecPuUaI=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js" integrity="sha256-vMxgR/7FtLovVA+IPrR7+xTgIgARH7y9VZQnmmi0HDI=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.js" integrity="sha256-N0qFUh7/9vLvia87dDndewmsgsyYoNkdA212tPc+2NI=" crossorigin="anonymous"></script>
+
+
+<script src="https://haoding0713.github.io/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/haoding0713.github.io\/2017\/10\/java-reflection-tutorial\/';
+          
+            this.page.identifier = '\/2017\/10\/java-reflection-tutorial\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+
