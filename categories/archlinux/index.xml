@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Archlinux on Coder DH&#39;s Blog</title>
-    <link>https://haoding0713.github.io/categories/archlinux/</link>
+    <link>https://haoding0713@github.io/categories/archlinux/</link>
     <description>Recent content in Archlinux on Coder DH&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Tue, 12 Sep 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://haoding0713.github.io/categories/archlinux/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://haoding0713@github.io/categories/archlinux/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>[译]如何在Archlinux上安装Yaourt</title>
-      <link>https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/</link>
+      <link>https://haoding0713@github.io/2017/09/how-to-install-yarout-on-arch/</link>
       <pubDate>Tue, 12 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/</guid>
+      <guid>https://haoding0713@github.io/2017/09/how-to-install-yarout-on-arch/</guid>
       <description>&lt;p&gt;9月一次日常系统升级后，导致Remarkable无法使用。重装了也没解决，最后发现是依赖的webkitgtk版本过旧，被官方标记为不安全，从仓库中移除。这过程中，Yaourt和AUR也被我翻来倒去地折腾，差点被玩坏。所以还是备份一下Yaourt的安装方式。
 &lt;/p&gt;</description>
     </item>

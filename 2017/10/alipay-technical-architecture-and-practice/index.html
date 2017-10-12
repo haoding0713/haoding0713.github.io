@@ -1,0 +1,891 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.27.1 with theme Tranquilpeak 0.4.1-BETA">
+    <title>【转】蚂蚁金服11.11：支付宝和蚂蚁花呗的技术架构及实践</title>
+    <meta name="author" content="Hao DING">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="https://haoding0713@github.io/favicon.png">
+    
+
+    
+    <meta name="description" content="每年“双11”都是一场电商盛会，消费者狂欢日。今年双11的意义尤为重大，它已经发展成为全世界电商和消费者都参与进来的盛宴。而对技术人员来说，双十一无疑已经成为一场大考，考量的角度是整体架构、基础中间件、运维工具、人员等。
+
+一次成功的大促准备不光是针对活动本身对系统和架构做的优化措施，比如：流量控制，缓存策略，依赖管控，性能优化……更是与长时间的技术积累和打磨分不开。
+">
+    <meta property="og:description" content="每年“双11”都是一场电商盛会，消费者狂欢日。今年双11的意义尤为重大，它已经发展成为全世界电商和消费者都参与进来的盛宴。而对技术人员来说，双十一无疑已经成为一场大考，考量的角度是整体架构、基础中间件、运维工具、人员等。
+
+一次成功的大促准备不光是针对活动本身对系统和架构做的优化措施，比如：流量控制，缓存策略，依赖管控，性能优化……更是与长时间的技术积累和打磨分不开。
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="【转】蚂蚁金服11.11：支付宝和蚂蚁花呗的技术架构及实践">
+    <meta property="og:url" content="/2017/10/alipay-technical-architecture-and-practice/">
+    <meta property="og:site_name" content="Coder DH&#39;s Blog">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Coder DH&#39;s Blog">
+    <meta name="twitter:description" content="每年“双11”都是一场电商盛会，消费者狂欢日。今年双11的意义尤为重大，它已经发展成为全世界电商和消费者都参与进来的盛宴。而对技术人员来说，双十一无疑已经成为一场大考，考量的角度是整体架构、基础中间件、运维工具、人员等。
+
+一次成功的大促准备不光是针对活动本身对系统和架构做的优化措施，比如：流量控制，缓存策略，依赖管控，性能优化……更是与长时间的技术积累和打磨分不开。
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="http://static.dingtalk.com/media/lALPAAAAAQsoljzNA4rNA4o_906_906.png?auth_bizType=IM&auth_bizEntity=%7B%22cid%22%3A%22393306%3A4248001%22%2C%22msgId%22%3A%2232797715935%22%7D&open_id=393306">
+    
+
+    
+      <meta property="og:image" content="https://haoding0713@github.io/img/alipay_architecture.jpg">
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://haoding0713@github.io/css/style-fpbzgxsy0kgmdvyrj5ykkg6ratccrk3gocmaqn4xpcjywmv5dteilzucro4f.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://haoding0713@github.io/">Coder DH&#39;s Blog</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://haoding0713@github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="http://static.dingtalk.com/media/lALPAAAAAQsoljzNA4rNA4o_906_906.png?auth_bizType=IM&amp;auth_bizEntity=%7B%22cid%22%3A%22393306%3A4248001%22%2C%22msgId%22%3A%2232797715935%22%7D&amp;open_id=393306" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://haoding0713@github.io/#about">
+          <img class="sidebar-profile-picture" src="http://static.dingtalk.com/media/lALPAAAAAQsoljzNA4rNA4o_906_906.png?auth_bizType=IM&amp;auth_bizEntity=%7B%22cid%22%3A%22393306%3A4248001%22%2C%22msgId%22%3A%2232797715935%22%7D&amp;open_id=393306" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Hao DING</h4>
+        
+          <h5 class="sidebar-profile-bio">Pain past is pleasure.</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://haoding0713@github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://haoding0713@github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://haoding0713@github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://haoding0713@github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://haoding0713@github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/haoding0713" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://stackoverflow.com/users/981288/hao-ding" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-stack-overflow"></i>
+      
+      <span class="sidebar-button-desc">Stack Overflow</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://haoding0713@github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-center">
+  
+    <h1 class="post-title" itemprop="headline">
+      【转】蚂蚁金服11.11：支付宝和蚂蚁花呗的技术架构及实践
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2017-10-12T00:00:00Z">
+        
+  十月 12, 2017
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://haoding0713@github.io/categories/architecture">Architecture</a>
+    
+  
+
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>每年“双11”都是一场电商盛会，消费者狂欢日。今年双11的意义尤为重大，它已经发展成为全世界电商和消费者都参与进来的盛宴。而对技术人员来说，双十一无疑已经成为一场大考，考量的角度是整体架构、基础中间件、运维工具、人员等。</p>
+
+<p>一次成功的大促准备不光是针对活动本身对系统和架构做的优化措施，比如：流量控制，缓存策略，依赖管控，性能优化……更是与长时间的技术积累和打磨分不开。
+</p>
+
+<blockquote>
+<p>下面我将简单介绍支付宝的整体架构，让大家有个初步认识，然后会以本次在大促中大放异彩的“蚂蚁花呗”为例，大致介绍一个新业务是如何从头开始准备大促的。因为涉及的内容要深入下去是足够写一个系列介绍，本文只能提纲挈领的让大家有个初步认识，后续可能会对大家感兴趣的专项内容进行深入分享。</p>
+</blockquote>
+
+<hr />
+
+<h2 id="架构">架构</h2>
+
+<p>支付宝的架构设计上应该考虑到互联网金融业务的特殊性，比如要求更高的业务连续性，更好的高扩展性，更快速的支持新业务发展等特点。目前其架构如下：</p>
+
+<p><img src="https://haoding0713@github.io/img/alipay_architecture.jpg" alt="alipay_architecture" /></p>
+
+<p>整个平台被分成了三个层：</p>
+
+<ul>
+<li>运维平台（IAAS）：主要提供基础资源的可伸缩性，比如网络、存储、数据库、虚拟化、IDC等，保证底层系统平台的稳定性；</li>
+<li>技术平台（PAAS）：主要提供可伸缩、高可用的分布式事务处理和服务计算能力，能够做到弹性资源的分配和访问控制，提供一套基础的中间件运行环境，屏蔽底层资源的复杂性；</li>
+<li>业务平台（SAAS）：提供随时随地高可用的支付服务，并且提供一个安全易用的开放支付应用开发平台。</li>
+</ul>
+
+<hr />
+
+<h2 id="架构特性">架构特性</h2>
+
+<h6 id="逻辑数据中心架构">逻辑数据中心架构</h6>
+
+<p>在双十一大促当天业务量年年翻番的情况下，支付宝面临的考验也越来越大：系统的容量越来越大，服务器、网络、数据库、机房都随之扩展，这带来了一些比较大的问题，比如系统规模越来越大，系统的复杂度越来越高，以前按照点的伸缩性架构无法满足要求，需要我们有一套整体性的可伸缩方案，可以按照一个单元的维度进行扩展。能够提供支持异地伸缩的能力，提供N+1的灾备方案，提供整体性的故障恢复体系。基于以上几个需求，我们提出了逻辑数据中心架构，核心思想是把数据水平拆分的思路向上层提到接入层、终端， 从接入层开始把系统分成多个单元，单元有几个特性：</p>
+
+<ol>
+<li>每个单元对外是封闭的，包括系统间交换各类存储的访问;</li>
+<li>每个单元的实时数据是独立的，不共享。而会员或配置类对延时性要求不高的数据可共享;</li>
+<li>单元之间的通信统一管控，尽量走异步化消息。同步消息走单元代理方案；
+下面是支付宝逻辑机房架构的概念图：</li>
+</ol>
+
+<p><img src="https://haoding0713@github.io/img/alipay_idc.jpg" alt="alipay_idc" /></p>
+
+<p>这套架构解决了几个关键问题：</p>
+
+<ol>
+<li>由于尽量减少了跨单元交互和使用异步化，使得异地部署成为可能。整个系统的水平可伸缩性大大提高，不再依赖同城IDC；</li>
+<li>可以实现N+1的异地灾备策略，大大缩减灾备成本，同时确保灾备设施真实可用；</li>
+<li>整个系统已无单点存在，大大提升了整体的高可用性；同城和异地部署的多个单元可用作互备的容灾设施，通过运维管控平台进行快速切换，有机会实现100%的持续可用率；</li>
+<li>该架构下业务级别的流量入口和出口形成了统一的可管控、可路由的控制点，整体系统的可管控能力得到很大提升。基于该架构，线上压测、流量管控、灰度发布等以前难以实现的运维管控模式，现在能够十分轻松地实现。</li>
+</ol>
+
+<p>目前新架构的同城主体框架在2013年已经完成，并且顺利的面对了双十一的考验，让整套架构的落地工作得到了很好的证明。</p>
+
+<p>在2015年完成了基于逻辑机房，异地部署的“异地多活”的架构落地。“异地多活”架构是指，基于逻辑机房扩展能力，在不同的地域IDC部署逻辑机房，并且每个逻辑机房都是“活”的，真正承接线上业务，在发生故障的时候可以快速进行逻辑机房之间的快速切换。</p>
+
+<p>这比传统的“两地三中心”架构有更好的业务连续性保障。在“异地多活”的架构下，一个IDC对应的故障容灾IDC是一个“活”的IDC，平时就承接着正常线上业务，保证其稳定性和业务的正确性是一直被确保的。</p>
+
+<p>以下是支付宝“异地多活”架构示意图：</p>
+
+<p><img src="https://haoding0713@github.io/img/alipay_multiple_bak.png" alt="alipay_multiple_bak" /></p>
+
+<p>除了更好的故障应急能力之外，基于逻辑机房我们又具备的“蓝绿发布”或者说“灰度发布”的验证能力。我们把单个逻辑机房（后续简称LDC）内部又分成A、B两个逻辑机房，A 、B机房在功能上完全对等。日常情况下，调用请求按照对等概率随机路由到A或B 。当开启蓝绿模式时，上层路由组件会调整路由计算策略，隔离A与B之间的调用， A组内应用只能相互访问，而不会访问B组。</p>
+
+<p>然后进行蓝绿发布流程大致如下：</p>
+
+<p><img src="https://haoding0713@github.io/img/alipay_ab_publish.png" alt="alipay_ab_publish" /></p>
+
+<p><em>Step1</em>: 发布前，将“蓝”流量调至0%，对“蓝”的所有应用整体无序分2组发布。</p>
+
+<p><em>Step2</em>: “蓝”引流1%观察，如无异常，逐步上调分流比例至100%。</p>
+
+<p><em>Step3</em>: “绿”流量为0%，对“绿”所有应用整体无序分2组发布。</p>
+
+<p><em>Step4</em>: 恢复日常运行状态，蓝、绿单元各承担线上50%的业务流量。</p>
+
+<p><br/></p>
+
+<h6 id="分布式数据架构">分布式数据架构</h6>
+
+<p>支付宝在2015年双十一当天的高峰期间处理支付峰值8.59万笔/秒，已经是国际第一大系统支付。支付宝已经是全球最大的OLTP处理者之一，对事务的敏感使支付宝的数据架构有别于其他的互联网公司，却继承了互联网公司特有的巨大用户量，最主要的是支付宝对交易的成本比传统金融公司更敏感，所以支付宝数据架构发展，就是一部低成本、线性可伸缩、分布式的数据架构演变史。</p>
+
+<p>现在支付宝的数据架构已经从集中式的小型机和高端存储升级到了分布式PC服务解决方案，整体数据架构的解决方案尽量做到无厂商依赖，并且标准化。</p>
+
+<p>支付宝分布式数据架构可伸缩策略主要分为三个维度：</p>
+
+<p><img src="https://haoding0713@github.io/img/alipay_scale_dimension.jpg" alt="alipay_scale_dimension" /></p>
+
+<ol>
+<li>按照业务类型进行垂直拆分</li>
+<li>按照客户请求进行水平拆分（也就是常说的数据的sharding策略）</li>
+<li>对于读远远大于写的数据进行读写分离和数据复制处理</li>
+</ol>
+
+<p>下图是支付宝内部交易数据的可伸缩性设计：</p>
+
+<p><img src="https://haoding0713@github.io/img/alipay_data_scale_design.jpg" alt="alipay_data_scale_design" /></p>
+
+<p>交易系统的数据主要分为三个大数据库集群：</p>
+
+<ol>
+<li>主交易数据库集群，每一笔交易创建和状态的修改首先在这⾥完成，产生的变更再通过可靠数据复制中心复制到其他两个数据库集群：消费记录数据库集群、商户查询数据库集群。该数据库集群的数据被水平拆分成多份，为了同时保证可伸缩性和高可靠性，每一个节点都会有与之对应的备用节点和failover节点，在出现故障的时候可以在秒级内切换到failover节点。</li>
+<li>消费记录数据库集群，提供消费者更好的用户体验和需求；</li>
+<li>商户查询数据库集群，提供商户更好的用户体验和需求；
+对于分拆出来的各个数据节点，为了保证对上层应用系统的透明，我们研发一套数据中间产品来保证交易数据做到弹性扩容。</li>
+</ol>
+
+<p><br/></p>
+
+<h6 id="数据的可靠性">数据的可靠性</h6>
+
+<p>分布式数据架构下，在保证事务原有的ACID（原子性、一致性、隔离性、持久性）特性的基础上，还要保证高可用和可伸缩性，挑战非常大。试想你同时支付了两笔资金，这两笔资金的事务如果在分布式环境下相互影响，在其中一笔交易资金回滚的情况下，还会影响另外一笔是多么不能接受的情况。</p>
+
+<p>根据CAP和BASE原则，再结合支付宝系统的特点，我们设计了一套基于服务层面的分布式事务框架，他支持两阶段提交协议，但是做了很多的优化，在保证事务的ACID原则的前提下，确保事务的最终一致性 。我们叫做“柔性事物”策略。原理如下：</p>
+
+<p><img src="https://haoding0713@github.io/img/alipay_ici.png" alt="alipay_ici" /></p>
+
+<p>以下是分布式事务框架的流程图：</p>
+
+<p><img src="https://haoding0713@github.io/img/alipay_distributed_transaction.jpg" alt="alipay_distributed_transaction" /></p>
+
+<p>实现：</p>
+
+<ol>
+<li>一个完整的业务活动由一个主业务服务与若干从业务服务组成。</li>
+<li>主业务服务负责发起并完成整个业务活动。</li>
+<li>从业务服务提供TCC型业务操作。</li>
+<li>业务活动管理器控制业务活动的一致性，它登记业务活动中的操作，并在活动提交时确认所有的两阶段事务的confirm操作，在业务活动取消时调用所有两阶段事务的cancel操作。”</li>
+</ol>
+
+<p>与2PC协议比较：</p>
+
+<ol>
+<li>没有单独的Prepare阶段，降低协议成本</li>
+<li>系统故障容忍度高，恢复简单
+其中关键组件异步可靠消息策略如下：</li>
+</ol>
+
+<p><img src="https://haoding0713@github.io/img/alipay_aysn_message.png" alt="alipay_aysn_message" /></p>
+
+<p>其中一些关键设计点：</p>
+
+<ol>
+<li>若在第2, 3, 4步出现故障，业务系统自行决定回滚还是另起补偿机制；若在第6、7步出现异常，消息中心需要回查生产者；若在第8步出现异常，消息中心需要重试。第6步的确认消息由消息中心组件封装，应用系统无需感知。</li>
+<li>此套机制保障了消息数据的完整性，进而保障了与通过异步可靠消息通讯的系统数据最终一致性。</li>
+<li>某些业务的前置检查，需要消息中心提供指定条件回查机制。</li>
+</ol>
+
+<h2 id="蚂蚁花呗">蚂蚁花呗</h2>
+
+<p>蚂蚁花呗是今年增加的一个新支付工具，“确认收货后、下月还”的支付体验受到了越来越多的消费者信赖。跟余额和余额宝一样，蚂蚁花呗避开了银行间的交易链路，最大限度避免支付时的拥堵。据官方数据披露，在今天的双十一大促中，蚂蚁花呗支付成功率达到99.99%、平均每笔支付耗时0.035秒，和各大银行渠道一起确保了支付的顺畅。</p>
+
+<p>蚂蚁花呗距今发展不到一年，但发展速度非常快。从上线初期的10笔/秒的支付量发展到双十一当天峰值2.1w笔/秒。支撑蚂蚁花呗业务发展的技术体系经过不断演进、已经完全依托于蚂蚁金服的金融云架构。</p>
+
+<p>在2014年12月，蚂蚁花呗团队完成业务系统优化，按照标准将系统架设到了金融云上，依次对接了渠道层、业务层、核心平台层、数据层，使得用户对蚂蚁花呗在营销、下单和支付整个过程中体验统一。</p>
+
+<p>2015年4月，蚂蚁花呗系统同步金融云的单元化的建设，即LDC，使得数据和应用走向异地成为了现实，具备了较好的扩展性和流量管控能力。在可用性方面，与金融云账务体系深度结合，借用账务系统的failover能力，使得蚂蚁花呗通过低成本改造就具备了同城灾备、异地灾备等高可用能力。任何一个单元的数据库出了问题、能够快速进行容灾切换、不会影响这个单元的用户进行蚂蚁花呗支付。在稳定性方面，借助于云客户平台的高稳定性的能力，将蚂蚁花呗客户签约形成的合约数据迁移进去，并预先写入云客户平台的缓存中，在大促高峰期缓存的命中率达到100%。同时，结合全链路压测平台，对蚂蚁花呗进行了能力摸高和持续的稳定性测试，发现系统的性能点反复进行优化，使得大促当天系统平稳运行。在之前的架构中，系统的秒级处理能力无法有效衡量，通过简单的引流压测无法得到更加准确、可信的数据。立足于金融云，系统很快通过全链路压测得到了每秒处理4w笔支付的稳定能力。</p>
+
+<p>蚂蚁花呗业务中最为关键的一环在于买家授信和支付风险的控制。从买家下单的那一刻开始，后台便开始对虚假交易、限额限次、套现、支用风险等风险模型进行并行计算，这些模型最终将在20ms以内完成对仅百亿数据的计算和判定，能够在用户到达收银台前确定这笔交易是否存在潜在风险。</p>
+
+<p>为了保证蚂蚁花呗双11期间的授信资金充足，在金融云体系下搭建了机构资产中心，对接支付清算平台，将表内的信贷资产打包形成一个一定期限的资产池，并以这个资产池为基础，发行可交易证券进行融资，即通过资产转让的方式获得充足资金，通过这一创新确保了用户能够通过花呗服务顺利完成交易，并分流对银行渠道的压力。通过资产证券化运作，不仅帮助100多万小微企业实现融资，也支撑了蚂蚁花呗用户的消费信贷需求。蚂蚁小贷的资产证券化业务平台可达到每小时过亿笔、总规模数十亿元级别的资产转让。</p>
+
+<h2 id="总结">总结</h2>
+
+<p>经过这么多年的高可用架构和大促的准备工作，蚂蚁金融技术团队可以做到“先胜而后求战”，主要分为三方面技术积累：“谋”，“器”，“将”。</p>
+
+<p>“谋”就是整体的架构设计方案和策略；</p>
+
+<p>“器”就是支持技术工作的各种基础中间件和基础组件；</p>
+
+<p>“将”就是通过实践锻炼成长起来的技术人员。</p>
+
+<p>纵观现在各种架构分享，大家喜欢谈“谋”的方面较多，各种架构设计方案优化策略分享，但实际最后多是两种情况：“吹的牛X根本没被证实过”（各种框架能力根本没经过实际考验，只是一纸空谈），“吹过的牛X一经实际考验就破了”（说的设计理念很好，但是一遇到实际的大业务的冲击系统就挂了），最后能成功的少之又少。这些说明虽然架构上的“心灵鸡汤”和“成功学”技术人员都已经熟的不行，但是发现一到实践其实根本不是那么回事。从此可以看出，其实最后起决定作用的不是 “谋”方面的理论层面的分析设计，最重要的是落地“器”和“将”的层面。有过硬高稳定性的各种基础设施工具的和身经百战被“虐了千百次”的技术人员的支撑才是最后取胜的关键。而这个两个层面的问题是不能通过分享学到的，是要通过日积月累的，无数流血流泪趟雷中招锻炼出来的，没有近路可抄。</p>
+
+<p>而目前从业务和市场的发展形势来看，往往就是需要技术在某个特定时间有个质的能力的提升和飞跃，不会给你太多的准备技术架构提升的时间，在技术积累和人员储备都不足的时候，如何构建平台能力，把更多的精力放在业务相关的开发任务中，是每个技术团队的希望得到的能力 。</p>
+
+<p>过去我们是通过某个开源或者商业组件来实现技术共享得到快速解决谋发展技术的能力的，但是随着业务复杂性，专业性，规模的逐步变大，这种方式的缺点也是显而易见的：1、很多组件根本无法满足大并发场景下的各种技术指标；2、随着业务的复杂和专业性的提高，没有可以直接使用的开源组件；3、“人”本身的经验和能力是无法传递的。</p>
+
+<p>所以现在我们通过“云”分享的技术和业务的能力的方式也发展的越来越快，这就我们刚才介绍的“蚂蚁花呗”技术用几个月的时间快速的成功的达到“从上线初期的10笔/秒的支付量发展到双十一当天峰值2.1w笔/秒，快速走完了别人走了几年都可能达不到的能力。类似的例子还有大家熟知的“余额宝”系统。</p>
+
+<p>这些都是建立在原来蚂蚁金服用了10年打磨的基础组件和技术人员经验的云服务上的，通过目前基于这种能力，我们目前可以快速给内部和外部的客户组建，高可用、安全、高效、合规的金融云服务架构下的系统。</p>
+
+<hr />
+
+<blockquote>
+<p><a href="http://www.infoq.com/cn/articles/technical-architecture-of-alipay-and-ant-check-later">原文链接</a>
+作者：贺岩  发布于 2015年12月8日. 估计阅读时间: 16 分钟</p>
+</blockquote>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                <i class="fa fa-angle-left"></i>
+                <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+              </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713@github.io/2017/10/java-reflection-tutorial/" data-tooltip="Java反射教程">
+              
+                <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                <i class="fa fa-angle-right"></i>
+              </a>
+            </li>
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 Hao DING. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                <i class="fa fa-angle-left"></i>
+                <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+              </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713@github.io/2017/10/java-reflection-tutorial/" data-tooltip="Java反射教程">
+              
+                <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                <i class="fa fa-angle-right"></i>
+              </a>
+            </li>
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhaoding0713%40github.io%2F2017%2F10%2Falipay-technical-architecture-and-practice%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fhaoding0713%40github.io%2F2017%2F10%2Falipay-technical-architecture-and-practice%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fhaoding0713%40github.io%2F2017%2F10%2Falipay-technical-architecture-and-practice%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="http://static.dingtalk.com/media/lALPAAAAAQsoljzNA4rNA4o_906_906.png?auth_bizType=IM&amp;auth_bizEntity=%7B%22cid%22%3A%22393306%3A4248001%22%2C%22msgId%22%3A%2232797715935%22%7D&amp;open_id=393306" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Hao DING</h4>
+    
+      <div id="about-card-bio">Pain past is pleasure.</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Senior Developper
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        SH, CHINA
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="搜索" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/">
+                <h3 class="media-heading">【转】蚂蚁金服11.11：支付宝和蚂蚁花呗的技术架构及实践</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>每年“双11”都是一场电商盛会，消费者狂欢日。今年双11的意义尤为重大，它已经发展成为全世界电商和消费者都参与进来的盛宴。而对技术人员来说，双十一无疑已经成为一场大考，考量的角度是整体架构、基础中间件、运维工具、人员等。</p>
+
+<p>一次成功的大促准备不光是针对活动本身对系统和架构做的优化措施，比如：流量控制，缓存策略，依赖管控，性能优化……更是与长时间的技术积累和打磨分不开。
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://haoding0713@github.io/2017/10/java-reflection-tutorial/">
+                <h3 class="media-heading">Java反射教程</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>Java反射为程序提供了无需在编译时知道具体的类，方法等名称，并在运行时检查类，接口，字段和方法的能力。使用反射可以实例化新对象，调用方法和获取/设置字段值。本文不仅会涉及Java反射的基础知识，例如如何使用数组，注释，泛型和动态代理，并进行动态类加载和重新加载。最后还会解释一些有关运行时获取泛型的常见问题。比如泛型信息并不是在运行时完全丢失。
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://haoding0713@github.io/2017/10/java-enums/">
+                <h3 class="media-heading">【译】Java语言之Enums： 集优雅与可玩性与一体</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>话说Java 8已经到来(译者补充：时至今日，Java 9也呼之欲出)，但我们真的已经非常了解从Java 5那时就引入的Enum（枚举）了吗？ 枚举在Java语言中的作用被低估了，除了定义/保存常量之类的日常用法，其实它还有更多的用武之地。
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://haoding0713@github.io/2017/09/review-cookie/">
+                <h3 class="media-heading">回顾Cookie</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>最近系统爆出了一个奇怪的问题，用户A购买的订单莫名漂移，最后到了用户B的名下。问题排查过程中，从最开始的迷茫，多向出击尝试找到问题，到逐步缩小范围，定位问题。最终把问题给找到了，也进行了修复。过程中由于对一些技术细节把握不准，费去了不少的时间。特此做一个梳理，整理成文，作为经验总结。
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://haoding0713@github.io/2017/09/consistence-protocol-in-distributed-system/">
+                <h3 class="media-heading">分布式系统中的一致性协议</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>本文汇总并介绍了目前分布式系统中常见的一些一致性协议：两阶段提交协议，三阶段提交协议，向量时钟，RWN协议，paxos协议，Raft协议。作为是一个索引。
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://haoding0713@github.io/2017/09/how-to-install-yarout-on-arch/">
+                <h3 class="media-heading">[译]如何在Archlinux上安装Yaourt</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>9月一次日常系统升级后，导致Remarkable无法使用。重装了也没解决，最后发现是依赖的webkitgtk版本过旧，被官方标记为不安全，从仓库中移除。这过程中，Yaourt和AUR也被我翻来倒去地折腾，差点被玩坏。所以还是备份一下Yaourt的安装方式。
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://haoding0713@github.io/2017/09/my-new-blog/">
+                <h3 class="media-heading">My New Blog</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>新的博客。是记录，也是一种督促。
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://haoding0713@github.io/post/">
+                <h3 class="media-heading">Posts</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         8 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://haoding0713@github.io/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" integrity="sha256-IFHWFEbU2/+wNycDECKgjIRSirRNIDp2acEB5fvdVRU=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js" integrity="sha256-+mpyNVJsNt4rVXCw0F+pAOiB3YxmHgrbJsx4ecPuUaI=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js" integrity="sha256-vMxgR/7FtLovVA+IPrR7+xTgIgARH7y9VZQnmmi0HDI=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.js" integrity="sha256-N0qFUh7/9vLvia87dDndewmsgsyYoNkdA212tPc+2NI=" crossorigin="anonymous"></script>
+
+
+<script src="https://haoding0713@github.io/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/haoding0713@github.io\/2017\/10\/alipay-technical-architecture-and-practice\/';
+          
+            this.page.identifier = '\/2017\/10\/alipay-technical-architecture-and-practice\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

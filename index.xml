@@ -2,71 +2,83 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Coder DH&#39;s Blog</title>
-    <link>https://haoding0713.github.io/</link>
+    <link>https://haoding0713@github.io/</link>
     <description>Recent content on Coder DH&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 11 Oct 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Oct 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://haoding0713.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://haoding0713@github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>【转】蚂蚁金服11.11：支付宝和蚂蚁花呗的技术架构及实践</title>
+      <link>https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/</link>
+      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/</guid>
+      <description>&lt;p&gt;每年“双11”都是一场电商盛会，消费者狂欢日。今年双11的意义尤为重大，它已经发展成为全世界电商和消费者都参与进来的盛宴。而对技术人员来说，双十一无疑已经成为一场大考，考量的角度是整体架构、基础中间件、运维工具、人员等。&lt;/p&gt;
+
+&lt;p&gt;一次成功的大促准备不光是针对活动本身对系统和架构做的优化措施，比如：流量控制，缓存策略，依赖管控，性能优化……更是与长时间的技术积累和打磨分不开。
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Java反射教程</title>
-      <link>https://haoding0713.github.io/2017/10/java-reflection-tutorial/</link>
+      <link>https://haoding0713@github.io/2017/10/java-reflection-tutorial/</link>
       <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haoding0713.github.io/2017/10/java-reflection-tutorial/</guid>
+      <guid>https://haoding0713@github.io/2017/10/java-reflection-tutorial/</guid>
       <description>&lt;p&gt;Java反射为程序提供了无需在编译时知道具体的类，方法等名称，并在运行时检查类，接口，字段和方法的能力。使用反射可以实例化新对象，调用方法和获取/设置字段值。本文不仅会涉及Java反射的基础知识，例如如何使用数组，注释，泛型和动态代理，并进行动态类加载和重新加载。最后还会解释一些有关运行时获取泛型的常见问题。比如泛型信息并不是在运行时完全丢失。
 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>【译】Java语言之Enums： 集优雅与可玩性与一体</title>
-      <link>https://haoding0713.github.io/2017/10/java-enums/</link>
+      <link>https://haoding0713@github.io/2017/10/java-enums/</link>
       <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haoding0713.github.io/2017/10/java-enums/</guid>
+      <guid>https://haoding0713@github.io/2017/10/java-enums/</guid>
       <description>&lt;p&gt;话说Java 8已经到来(译者补充：时至今日，Java 9也呼之欲出)，但我们真的已经非常了解从Java 5那时就引入的Enum（枚举）了吗？ 枚举在Java语言中的作用被低估了，除了定义/保存常量之类的日常用法，其实它还有更多的用武之地。
 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>回顾Cookie</title>
-      <link>https://haoding0713.github.io/2017/09/review-cookie/</link>
+      <link>https://haoding0713@github.io/2017/09/review-cookie/</link>
       <pubDate>Thu, 21 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haoding0713.github.io/2017/09/review-cookie/</guid>
+      <guid>https://haoding0713@github.io/2017/09/review-cookie/</guid>
       <description>&lt;p&gt;最近系统爆出了一个奇怪的问题，用户A购买的订单莫名漂移，最后到了用户B的名下。问题排查过程中，从最开始的迷茫，多向出击尝试找到问题，到逐步缩小范围，定位问题。最终把问题给找到了，也进行了修复。过程中由于对一些技术细节把握不准，费去了不少的时间。特此做一个梳理，整理成文，作为经验总结。
 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>分布式系统中的一致性协议</title>
-      <link>https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/</link>
+      <link>https://haoding0713@github.io/2017/09/consistence-protocol-in-distributed-system/</link>
       <pubDate>Wed, 13 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/</guid>
+      <guid>https://haoding0713@github.io/2017/09/consistence-protocol-in-distributed-system/</guid>
       <description>&lt;p&gt;本文汇总并介绍了目前分布式系统中常见的一些一致性协议：两阶段提交协议，三阶段提交协议，向量时钟，RWN协议，paxos协议，Raft协议。作为是一个索引。
 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>[译]如何在Archlinux上安装Yaourt</title>
-      <link>https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/</link>
+      <link>https://haoding0713@github.io/2017/09/how-to-install-yarout-on-arch/</link>
       <pubDate>Tue, 12 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/</guid>
+      <guid>https://haoding0713@github.io/2017/09/how-to-install-yarout-on-arch/</guid>
       <description>&lt;p&gt;9月一次日常系统升级后，导致Remarkable无法使用。重装了也没解决，最后发现是依赖的webkitgtk版本过旧，被官方标记为不安全，从仓库中移除。这过程中，Yaourt和AUR也被我翻来倒去地折腾，差点被玩坏。所以还是备份一下Yaourt的安装方式。
 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>My New Blog</title>
-      <link>https://haoding0713.github.io/2017/09/my-new-blog/</link>
+      <link>https://haoding0713@github.io/2017/09/my-new-blog/</link>
       <pubDate>Tue, 05 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haoding0713.github.io/2017/09/my-new-blog/</guid>
+      <guid>https://haoding0713@github.io/2017/09/my-new-blog/</guid>
       <description>&lt;p&gt;新的博客。是记录，也是一种督促。
 &lt;/p&gt;</description>
     </item>

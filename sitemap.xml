@@ -3,89 +3,100 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://haoding0713.github.io/2017/10/java-reflection-tutorial/</loc>
+    <loc>https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/</loc>
+    <lastmod>2017-10-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://haoding0713@github.io/2017/10/java-reflection-tutorial/</loc>
     <lastmod>2017-10-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/2017/10/java-enums/</loc>
+    <loc>https://haoding0713@github.io/2017/10/java-enums/</loc>
     <lastmod>2017-10-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/2017/09/review-cookie/</loc>
+    <loc>https://haoding0713@github.io/2017/09/review-cookie/</loc>
     <lastmod>2017-09-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/</loc>
+    <loc>https://haoding0713@github.io/2017/09/consistence-protocol-in-distributed-system/</loc>
     <lastmod>2017-09-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/</loc>
+    <loc>https://haoding0713@github.io/2017/09/how-to-install-yarout-on-arch/</loc>
     <lastmod>2017-09-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/2017/09/my-new-blog/</loc>
+    <loc>https://haoding0713@github.io/2017/09/my-new-blog/</loc>
     <lastmod>2017-09-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/archives/</loc>
+    <loc>https://haoding0713@github.io/categories/architecture/</loc>
+    <lastmod>2017-10-12T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/categories/archlinux/</loc>
+    <loc>https://haoding0713@github.io/archives/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://haoding0713@github.io/categories/archlinux/</loc>
     <lastmod>2017-09-12T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/categories/</loc>
-    <lastmod>2017-09-12T00:00:00+00:00</lastmod>
+    <loc>https://haoding0713@github.io/categories/</loc>
+    <lastmod>2017-10-12T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/</loc>
-    <lastmod>2017-10-11T00:00:00+00:00</lastmod>
+    <loc>https://haoding0713@github.io/</loc>
+    <lastmod>2017-10-12T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/categories/cookie/</loc>
+    <loc>https://haoding0713@github.io/categories/cookie/</loc>
     <lastmod>2017-09-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/categories/distributed-system/</loc>
+    <loc>https://haoding0713@github.io/categories/distributed-system/</loc>
     <lastmod>2017-09-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/categories/java/</loc>
+    <loc>https://haoding0713@github.io/categories/java/</loc>
     <lastmod>2017-10-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/post/</loc>
-    <lastmod>2017-10-11T00:00:00+00:00</lastmod>
+    <loc>https://haoding0713@github.io/post/</loc>
+    <lastmod>2017-10-12T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/tags/</loc>
+    <loc>https://haoding0713@github.io/tags/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://haoding0713.github.io/categories/web-security/</loc>
+    <loc>https://haoding0713@github.io/categories/web-security/</loc>
     <lastmod>2017-09-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>

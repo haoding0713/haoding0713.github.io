@@ -1,9 +1,5 @@
 
 
-  
-    
-  
-
 
   
 
@@ -20,26 +16,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.27.1 with theme Tranquilpeak 0.4.1-BETA">
-    <title>[译]如何在Archlinux上安装Yaourt</title>
+    <title>Architecture</title>
     <meta name="author" content="Hao DING">
     <meta name="keywords" content="">
 
     <link rel="icon" href="https://haoding0713@github.io/favicon.png">
     
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="https://haoding0713@github.io/categories/architecture/index.xml">
+    
 
     
-    <meta name="description" content="9月一次日常系统升级后，导致Remarkable无法使用。重装了也没解决，最后发现是依赖的webkitgtk版本过旧，被官方标记为不安全，从仓库中移除。这过程中，Yaourt和AUR也被我翻来倒去地折腾，差点被玩坏。所以还是备份一下Yaourt的安装方式。
-">
-    <meta property="og:description" content="9月一次日常系统升级后，导致Remarkable无法使用。重装了也没解决，最后发现是依赖的webkitgtk版本过旧，被官方标记为不安全，从仓库中移除。这过程中，Yaourt和AUR也被我翻来倒去地折腾，差点被玩坏。所以还是备份一下Yaourt的安装方式。
-">
+    <meta name="description" content="Hugo tranquilpeak theme demo">
+    <meta property="og:description" content="Hugo tranquilpeak theme demo">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="[译]如何在Archlinux上安装Yaourt">
-    <meta property="og:url" content="/2017/09/how-to-install-yarout-on-arch/">
+    <meta property="og:title" content="Architecture">
+    <meta property="og:url" content="/categories/architecture/">
     <meta property="og:site_name" content="Coder DH&#39;s Blog">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Coder DH&#39;s Blog">
-    <meta name="twitter:description" content="9月一次日常系统升级后，导致Remarkable无法使用。重装了也没解决，最后发现是依赖的webkitgtk版本过旧，被官方标记为不安全，从仓库中移除。这过程中，Yaourt和AUR也被我翻来倒去地折腾，差点被玩坏。所以还是备份一下Yaourt的安装方式。
-">
+    <meta name="twitter:description" content="Hugo tranquilpeak theme demo">
     
     
 
@@ -50,8 +45,6 @@
       <meta property="og:image" content="http://static.dingtalk.com/media/lALPAAAAAQsoljzNA4rNA4o_906_906.png?auth_bizType=IM&auth_bizEntity=%7B%22cid%22%3A%22393306%3A4248001%22%2C%22msgId%22%3A%2232797715935%22%7D&open_id=393306">
     
 
-    
-      <meta property="og:image" content="http://www.ostechnix.com/wp-content/uploads/2016/03/Install-Yaourt-In-Arch-Linux.jpg">
     
     
     
@@ -76,7 +69,7 @@
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="4">
+      <header id="header" data-behavior="1">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://haoding0713@github.io/">Coder DH&#39;s Blog</a>
@@ -96,7 +89,7 @@
   
 </header>
 
-      <nav id="sidebar" data-behavior="4">
+      <nav id="sidebar" data-behavior="1">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
@@ -205,26 +198,40 @@
 </nav>
 
       
+        
 
-      <div id="main" data-behavior="4"
+      
+      <div id="main" data-behavior="1"
         class="
                hasCoverMetaIn
                ">
-        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
-          
-          
-            <div class="post-header main-content-wrap text-center">
+        
+          <section class="postShorten-group main-content-wrap">
+            
+            
+              
   
-    <h1 class="post-title" itemprop="headline">
-      [译]如何在Archlinux上安装Yaourt
-    </h1>
+    
   
+
+
   
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/">
+          【转】蚂蚁金服11.11：支付宝和蚂蚁花呗的技术架构及实践
+        </a>
+      </h1>
+      
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2017-09-12T00:00:00Z">
+      <time itemprop="datePublished" datetime="2017-10-12T00:00:00Z">
         
-  九月 12, 2017
+  十月 12, 2017
 
       </time>
     
@@ -233,173 +240,39 @@
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://haoding0713@github.io/categories/archlinux">archlinux</a>
+      <a class="category-link" href="https://haoding0713@github.io/categories/architecture">Architecture</a>
     
   
 
 
   </div>
 
-</div>
-          
-          <div class="post-content markdown" itemprop="articleBody">
-            <div class="main-content-wrap">
-              <p>9月一次日常系统升级后，导致Remarkable无法使用。重装了也没解决，最后发现是依赖的webkitgtk版本过旧，被官方标记为不安全，从仓库中移除。这过程中，Yaourt和AUR也被我翻来倒去地折腾，差点被玩坏。所以还是备份一下Yaourt的安装方式。
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      <p>每年“双11”都是一场电商盛会，消费者狂欢日。今年双11的意义尤为重大，它已经发展成为全世界电商和消费者都参与进来的盛宴。而对技术人员来说，双十一无疑已经成为一场大考，考量的角度是整体架构、基础中间件、运维工具、人员等。</p>
+
+<p>一次成功的大促准备不光是针对活动本身对系统和架构做的优化措施，比如：流量控制，缓存策略，依赖管控，性能优化……更是与长时间的技术积累和打磨分不开。
 </p>
-
-<blockquote>
-<p>Arch Linux与其他主要发行版的一个主要不同点是允许用户能够根据喜好安装来自社区仓库(Arch User Repository or Simply AUR)的软件包。这是一个完全由社区驱动的软件仓库，其中包含了约44,000多个软件包。 然而，用户无法使用自带的pacman包管理器来安装这些第三方软件。只能自己下载，校验后再安装。Yaourt(<strong>Y</strong>et <strong>A</strong>n<strong>O</strong>ther <strong>U</strong>ser <strong>R</strong>epository <strong>T</strong>ool), 用于便利地下载AUR仓库中的软件。 简而言之，Yaourt是在Pacman上提供了AUR软件的安装和其他一些新的功能。</p>
-</blockquote>
-
-<p>在这篇博客里，我会介绍在Arch上安装Yaourt的两种方式:</p>
-
-<ol>
-<li>通过他人的仓库安装Yaourt</li>
-<li>利用AUR安装Yaourt
-[注]<em>第一种方式会更容易一些</em></li>
-</ol>
-
-<h2 id="1-通过他人的仓库安装yaourt">1. 通过他人的仓库安装Yaourt</h2>
-
-<p>打开并编辑Pacman的配置文件:</p>
-
-<pre><code class="language-bash">sudo vim /etc/pacman.conf
-</code></pre>
-
-<p>在文件末尾增加一个新的仓库源:</p>
-
-<pre><code class="language-xml">[archlinuxfr]
-SigLevel = Never
-Server = http://repo.archlinux.fr/$arch
-</code></pre>
-
-<p>保存修改。</p>
-
-<p>最后， 更新仓库内容并安装Yaourt</p>
-
-<pre><code>sudo pacman -Sy yaourt
-</code></pre>
-
-<p>这样就安装好了，接下来就可以直接使用Yaourt进行包的管理了。用法和Pacman相同，可以通过-h参数查看命令的帮助信息。</p>
-
-<h2 id="2-利用aur安装yaourt">2. 利用AUR安装Yaourt</h2>
-
-<p>在正式安装Yaourt之前，需要先安装一些依赖的包。执行：</p>
-
-<pre><code>sudo pacman -S --needed base-devel git wget yajl
-</code></pre>
-
-<p>在完成这些基本依赖后，我们需要下载并安装package-query来构建和运行Yaourt。
-可以通过Git获得package-query的代码：</p>
-
-<pre><code>git clone https://aur.archlinux.org/package-query.git
-</code></pre>
-
-<p>clone完成后，进入package-query文件夹，编译并安装：</p>
-
-<pre><code>cd package-query/
-makepkg -si
-</code></pre>
-
-<p>稍等片刻，Package-query就安装成功了。接下来，我们需要clone最新的Yaourt代码：</p>
-
-<pre><code>git clone https://aur.archlinux.org/yaourt.git
-</code></pre>
-
-<p>同样，编译并安装Yaourt：</p>
-
-<pre><code>cd yaourt/
-makepkg -si
-</code></pre>
-
-<p>至此，Yaourt就安装完成了。</p>
-
-<p>[注]还可以安装aurvote小工具，给你喜欢的软件包投票打分。</p>
-
-<p>原文链接: <a href="https://www.ostechnix.com/install-yaourt-arch-linux/">How To Install Yaourt In Arch Linux</a></p>
-              
-            </div>
-          </div>
-          <div id="post-footer" class="post-footer main-content-wrap">
-            
-              
-            
-            
-  <div class="post-actions-wrap">
-      <nav >
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713@github.io/2017/09/consistence-protocol-in-distributed-system/" data-tooltip="分布式系统中的一致性协议">
-              
-                <i class="fa fa-angle-left"></i>
-                <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
-              </a>
-            </li>
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713@github.io/2017/09/my-new-blog/" data-tooltip="My New Blog">
-              
-                <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
-                <i class="fa fa-angle-right"></i>
-              </a>
-            </li>
-        </ul>
-      </nav>
-    <ul class="post-actions post-action-share" >
-      
-        <li class="post-action hide-lg hide-md hide-sm">
-          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
-            <i class="fa fa-share-alt"></i>
-          </a>
-        </li>
+      <p>
+        <a href="https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/" class="postShorten-excerpt_link link">阅读全文</a>
         
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713@github.io/2017/09/how-to-install-yarout-on-arch/">
-              <i class="fa fa-facebook-official"></i>
-            </a>
-          </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713@github.io/2017/09/how-to-install-yarout-on-arch/">
-              <i class="fa fa-twitter"></i>
-            </a>
-          </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713@github.io/2017/09/how-to-install-yarout-on-arch/">
-              <i class="fa fa-google-plus"></i>
-            </a>
-          </li>
-        
-      
-      
-        <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
-            <i class="fa fa-comment-o"></i>
-          </a>
-        </li>
-      
-      <li class="post-action">
-        
-          <a class="post-action-btn btn btn--default" href="#">
-        
-          <i class="fa fa-list"></i>
-        </a>
-      </li>
-    </ul>
+      </p>
+    </div>
   </div>
-
+  
+    <a href="https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://haoding0713@github.io/img/alipay_architecture.jpg"/>
+      </div>
+    </a>
+  
+</article>
 
             
-              
-                <div id="disqus_thread">
-  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-              
             
-          </div>
-        </article>
+
+          </section>
+        
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
     &copy; 2017 Hao DING. All Rights Reserved
@@ -407,100 +280,6 @@ makepkg -si
 </footer>
 
       </div>
-      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
-        
-  <div class="post-actions-wrap">
-      <nav >
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713@github.io/2017/09/consistence-protocol-in-distributed-system/" data-tooltip="分布式系统中的一致性协议">
-              
-                <i class="fa fa-angle-left"></i>
-                <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
-              </a>
-            </li>
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713@github.io/2017/09/my-new-blog/" data-tooltip="My New Blog">
-              
-                <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
-                <i class="fa fa-angle-right"></i>
-              </a>
-            </li>
-        </ul>
-      </nav>
-    <ul class="post-actions post-action-share" >
-      
-        <li class="post-action hide-lg hide-md hide-sm">
-          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
-            <i class="fa fa-share-alt"></i>
-          </a>
-        </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713@github.io/2017/09/how-to-install-yarout-on-arch/">
-              <i class="fa fa-facebook-official"></i>
-            </a>
-          </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713@github.io/2017/09/how-to-install-yarout-on-arch/">
-              <i class="fa fa-twitter"></i>
-            </a>
-          </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713@github.io/2017/09/how-to-install-yarout-on-arch/">
-              <i class="fa fa-google-plus"></i>
-            </a>
-          </li>
-        
-      
-      
-        <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
-            <i class="fa fa-comment-o"></i>
-          </a>
-        </li>
-      
-      <li class="post-action">
-        
-          <a class="post-action-btn btn btn--default" href="#">
-        
-          <i class="fa fa-list"></i>
-        </a>
-      </li>
-    </ul>
-  </div>
-
-
-      </div>
-      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
-  <i id="btn-close-shareoptions" class="fa fa-close"></i>
-  <ul class="share-options">
-    
-      <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhaoding0713%40github.io%2F2017%2F09%2Fhow-to-install-yarout-on-arch%2F">
-          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
-        </a>
-      </li>
-    
-      <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fhaoding0713%40github.io%2F2017%2F09%2Fhow-to-install-yarout-on-arch%2F">
-          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
-        </a>
-      </li>
-    
-      <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fhaoding0713%40github.io%2F2017%2F09%2Fhow-to-install-yarout-on-arch%2F">
-          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
-        </a>
-      </li>
-    
-  </ul>
-</div>
-<div id="share-options-mask" class="share-options-mask"></div>
     </div>
     
     <div id="about">
@@ -736,32 +515,6 @@ $(document).ready(function() {
   });
 });
 </script>
-
-  
-    
-      <script>
-        var disqus_config = function () {
-          this.page.url = 'https:\/\/haoding0713@github.io\/2017\/09\/how-to-install-yarout-on-arch\/';
-          
-            this.page.identifier = '\/2017\/09\/how-to-install-yarout-on-arch\/'
-          
-        };
-        (function() {
-          
-          
-          if (window.location.hostname == "localhost") {
-            return;
-          }
-          var d = document, s = d.createElement('script');
-          var disqus_shortname = 'hugo-tranquilpeak-theme';
-          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-
-          s.setAttribute('data-timestamp', +new Date());
-          (d.head || d.body).appendChild(s);
-        })();
-      </script>
-    
-  
 
 
 
