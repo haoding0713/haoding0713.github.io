@@ -20,7 +20,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.30 with theme Tranquilpeak 0.4.1-BETA">
-    <title>My New Blog</title>
+    <title>构建分布式系统的开源组件</title>
     <meta name="author" content="Hao DING">
     <meta name="keywords" content="">
 
@@ -28,17 +28,17 @@
     
 
     
-    <meta name="description" content="新的博客。是记录，也是一种督促。
+    <meta name="description" content="本文主要收集当下分布式系统中依赖各个部件的开源项目
 ">
-    <meta property="og:description" content="新的博客。是记录，也是一种督促。
+    <meta property="og:description" content="本文主要收集当下分布式系统中依赖各个部件的开源项目
 ">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="My New Blog">
-    <meta property="og:url" content="/2017/09/my-new-blog/">
+    <meta property="og:title" content="构建分布式系统的开源组件">
+    <meta property="og:url" content="/2017/10/distributed-system-architecture-design/">
     <meta property="og:site_name" content="Coder DH&#39;s Blog">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Coder DH&#39;s Blog">
-    <meta name="twitter:description" content="新的博客。是记录，也是一种督促。
+    <meta name="twitter:description" content="本文主要收集当下分布式系统中依赖各个部件的开源项目
 ">
     
     
@@ -211,22 +211,30 @@
         <article class="post" itemscope itemType="http://schema.org/BlogPosting">
           
           
-            <div class="post-header main-content-wrap text-left">
+            <div class="post-header main-content-wrap text-center">
   
     <h1 class="post-title" itemprop="headline">
-      My New Blog
+      构建分布式系统的开源组件
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2017-09-05T00:00:00Z">
+      <time itemprop="datePublished" datetime="2017-10-25T00:00:00Z">
         
-  九月 5, 2017
+  十月 25, 2017
 
       </time>
     
     
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://haoding0713.github.io/categories/distributed-system">distributed-system</a>
+    
+  
+
 
   </div>
 
@@ -234,17 +242,157 @@
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <p>新的博客。是记录，也是一种督促。
+              <p>本文主要收集当下分布式系统中依赖各个部件的开源项目
 </p>
 
-<h1 id="这是通过hugo搭建的blog">这是通过Hugo搭建的Blog</h1>
+<h2 id="分布式配置管理">分布式配置管理</h2>
 
-<h2 id="既锻炼了逻辑表达能力-同时也是记录工作-学习中的点滴">既锻炼了逻辑表达能力，同时也是记录工作，学习中的点滴</h2>
+<ul>
+<li><a href="https://www.consul.io/">Consul</a> | <a href="https://github.com/coreos/etcd">etcd</a></li>
+<li>Archaius动态管理</li>
+<li>Kubernetes ConfigMap</li>
+<li>Kubernetes Secrets</li>
+</ul>
+
+<p>配置的集中管理：采用consul的KV，将所有微服务的application.properties中的配置内容存入consul。</p>
+
+<p>配置的动态管理：采用archaius，将consul上的配置信息读到spring的PropertySource和archaius的PollResult中，当修改了配置信息后，经常改变的值通过DynamicFactory来获取，不经常改变的值可以通过其他方式获取. 大部分情况下，修改了consul上的配置信息后，相应的项目不需要重启，也会读到最新的值。</p>
+
+<h2 id="服务注册与发现">服务注册与发现</h2>
+
+<ul>
+<li>Consul</li>
+<li>Eureka | Zookeeper | etcd</li>
+<li>Kubernetes ConfigMap</li>
+<li>Kubernetes Service</li>
+</ul>
+
+<h2 id="分布式锁">分布式锁</h2>
+
+<ul>
+<li>分布式锁</li>
+</ul>
+
+<h2 id="负载均衡">负载均衡</h2>
+
+<ul>
+<li>Netflix Ribbon（Spring Cloud）</li>
+<li>Kubernetes Service]</li>
+</ul>
+
+<h2 id="api网关与智能路由">API网关与智能路由</h2>
+
+<ul>
+<li>Netflix Zuul（SpringCloud）</li>
+<li>Kubernetes Service</li>
+<li>Kubernetes Ingress</li>
+<li><a href="https://konghq.com/">KONG</a></li>
+</ul>
+
+<h2 id="分布式服务弹性与容错">分布式服务弹性与容错</h2>
+
+<ul>
+<li><a href="https://github.com/Netflix/Hystrix">Netflix Hystrix</a></li>
+</ul>
+
+<h2 id="日志管理">日志管理</h2>
+
+<ul>
+<li>ELK Stack</li>
+</ul>
+
+<h2 id="分布式跟踪">分布式跟踪</h2>
+
+<ul>
+<li>Zipkin</li>
+</ul>
+
+<blockquote>
+<p>Zipkin is a distributed tracing system. It helps gather timing data needed to troubleshoot latency problems in microservice architectures. It manages both the collection and lookup of this data. Zipkin’s design is based on the Google Dapper paper.
+Applications are instrumented to report timing data to Zipkin. The Zipkin UI also presents a Dependency diagram showing how many traced requests went through each application. If you are troubleshooting latency problems or errors, you can filter or sort all traces based on the application, length of trace, annotation, or timestamp. Once you select a trace, you can see the percentage of the total trace time each span takes which allows you to identify the problem application.</p>
+</blockquote>
+
+<ul>
+<li>SpringCloud Sleuth</li>
+</ul>
+
+<h2 id="监控与度量">监控与度量</h2>
+
+<ul>
+<li>Application/Infrastructure monitoring using StatsD + Graphite + Grafana</li>
+</ul>
+
+<h2 id="服务安全">服务安全</h2>
+
+<ul>
+<li>SpringCloud Security</li>
+</ul>
+
+<h2 id="auto-scaling">Auto Scaling</h2>
+
+<ul>
+<li>Kubernetes Autoscaling</li>
+</ul>
+
+<h2 id="打包部署和调度部署">打包部署和调度部署</h2>
+
+<ul>
+<li>Spring Boot</li>
+<li>Docker／Rkt、Kubernetes Scheduler&amp;Deployment</li>
+</ul>
+
+<h2 id="任务工作管理">任务工作管理</h2>
+
+<ul>
+<li>Spring Batch</li>
+<li>Kubernetes Jobs</li>
+</ul>
+
+<h2 id="持久化-分布式文件系统">持久化 - 分布式文件系统</h2>
+
+<ul>
+<li>HDFS分布式文件系统</li>
+<li>Ceph</li>
+</ul>
+
+<h2 id="持久化-分布式数据库">持久化 - 分布式数据库</h2>
+
+<ul>
+<li>传统关系型数据库集群,如MySQL Cluster</li>
+<li>Mongo</li>
+<li>Cassandra</li>
+<li>HBase</li>
+</ul>
+
+<h2 id="非持久化-分布式缓存-消息系统">非持久化 - 分布式缓存/消息系统</h2>
+
+<ul>
+<li>Kafka</li>
+<li>Redis</li>
+</ul>
+
+<h2 id="分布式计算框架">分布式计算框架</h2>
+
+<ul>
+<li>YARN分布式计算框架 ： YARN应用开发的几种方式</li>
+<li>Spark</li>
+<li>Storm</li>
+</ul>
               
             </div>
           </div>
           <div id="post-footer" class="post-footer main-content-wrap">
             
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://haoding0713.github.io/tags/design/">design</a>
+
+                  </div>
+                
               
             
             
@@ -253,7 +401,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/" data-tooltip="[译]如何在Archlinux上安装Yaourt">
+                <a class="post-action-btn btn btn--disabled">
               
                 <i class="fa fa-angle-left"></i>
                 <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -261,7 +409,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/10/alipay-technical-architecture-and-practice/" data-tooltip="【转】蚂蚁金服11.11：支付宝和蚂蚁花呗的技术架构及实践">
               
                 <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                 <i class="fa fa-angle-right"></i>
@@ -278,19 +426,19 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713.github.io/2017/09/my-new-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713.github.io/2017/10/distributed-system-architecture-design/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713.github.io/2017/09/my-new-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713.github.io/2017/10/distributed-system-architecture-design/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713.github.io/2017/09/my-new-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713.github.io/2017/10/distributed-system-architecture-design/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -337,7 +485,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/" data-tooltip="[译]如何在Archlinux上安装Yaourt">
+                <a class="post-action-btn btn btn--disabled">
               
                 <i class="fa fa-angle-left"></i>
                 <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -345,7 +493,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/10/alipay-technical-architecture-and-practice/" data-tooltip="【转】蚂蚁金服11.11：支付宝和蚂蚁花呗的技术架构及实践">
               
                 <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                 <i class="fa fa-angle-right"></i>
@@ -362,19 +510,19 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713.github.io/2017/09/my-new-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713.github.io/2017/10/distributed-system-architecture-design/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713.github.io/2017/09/my-new-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713.github.io/2017/10/distributed-system-architecture-design/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713.github.io/2017/09/my-new-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713.github.io/2017/10/distributed-system-architecture-design/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -404,19 +552,19 @@
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F09%2Fmy-new-blog%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F10%2Fdistributed-system-architecture-design%2F">
           <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F09%2Fmy-new-blog%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F10%2Fdistributed-system-architecture-design%2F">
           <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F09%2Fmy-new-blog%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F10%2Fdistributed-system-architecture-design%2F">
           <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
         </a>
       </li>
@@ -682,9 +830,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/haoding0713.github.io\/2017\/09\/my-new-blog\/';
+          this.page.url = 'https:\/\/haoding0713.github.io\/2017\/10\/distributed-system-architecture-design\/';
           
-            this.page.identifier = '\/2017\/09\/my-new-blog\/'
+            this.page.identifier = '\/2017\/10\/distributed-system-architecture-design\/'
           
         };
         (function() {

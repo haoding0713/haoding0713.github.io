@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Architecture on Coder DH&#39;s Blog</title>
-    <link>https://haoding0713@github.io/categories/architecture/</link>
+    <link>https://haoding0713.github.io/categories/architecture/</link>
     <description>Recent content in Architecture on Coder DH&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Thu, 12 Oct 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://haoding0713@github.io/categories/architecture/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://haoding0713.github.io/categories/architecture/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>【转】蚂蚁金服11.11：支付宝和蚂蚁花呗的技术架构及实践</title>
-      <link>https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/</link>
+      <link>https://haoding0713.github.io/2017/10/alipay-technical-architecture-and-practice/</link>
       <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/</guid>
+      <guid>https://haoding0713.github.io/2017/10/alipay-technical-architecture-and-practice/</guid>
       <description>&lt;p&gt;每年“双11”都是一场电商盛会，消费者狂欢日。今年双11的意义尤为重大，它已经发展成为全世界电商和消费者都参与进来的盛宴。而对技术人员来说，双十一无疑已经成为一场大考，考量的角度是整体架构、基础中间件、运维工具、人员等。&lt;/p&gt;
 
 &lt;p&gt;一次成功的大促准备不光是针对活动本身对系统和架构做的优化措施，比如：流量控制，缓存策略，依赖管控，性能优化……更是与长时间的技术积累和打磨分不开。

@@ -19,12 +19,12 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.27.1 with theme Tranquilpeak 0.4.1-BETA">
+    <meta name="generator" content="Hugo 0.30 with theme Tranquilpeak 0.4.1-BETA">
     <title>【转】蚂蚁金服11.11：支付宝和蚂蚁花呗的技术架构及实践</title>
     <meta name="author" content="Hao DING">
     <meta name="keywords" content="">
 
-    <link rel="icon" href="https://haoding0713@github.io/favicon.png">
+    <link rel="icon" href="https://haoding0713.github.io/favicon.png">
     
 
     
@@ -53,11 +53,11 @@
     
 
     
-      <meta property="og:image" content="https://haoding0713@github.io/img/avatar.png">
+      <meta property="og:image" content="https://haoding0713.github.io/img/avatar.png">
     
 
     
-      <meta property="og:image" content="https://haoding0713@github.io/img/alipay_architecture.jpg">
+      <meta property="og:image" content="https://haoding0713.github.io/img/alipay_architecture.jpg">
     
     
     
@@ -70,7 +70,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
     
     
-    <link rel="stylesheet" href="https://haoding0713@github.io/css/style-fpbzgxsy0kgmdvyrj5ykkg6ratccrk3gocmaqn4xpcjywmv5dteilzucro4f.min.css" />
+    <link rel="stylesheet" href="https://haoding0713.github.io/css/style-fpbzgxsy0kgmdvyrj5ykkg6ratccrk3gocmaqn4xpcjywmv5dteilzucro4f.min.css" />
     
     
 
@@ -85,17 +85,17 @@
       <header id="header" data-behavior="4">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
-    <a class="header-title-link" href="https://haoding0713@github.io/">Coder DH&#39;s Blog</a>
+    <a class="header-title-link" href="https://haoding0713.github.io/">Coder DH&#39;s Blog</a>
   </div>
   
     
       <a class="header-right-picture "
-         href="https://haoding0713@github.io/#about">
+         href="https://haoding0713.github.io/#about">
     
     
     
       
-        <img class="header-picture" src="https://haoding0713@github.io/img/avatar.png" alt="作者的图片" />
+        <img class="header-picture" src="https://haoding0713.github.io/img/avatar.png" alt="作者的图片" />
       
     
     </a>
@@ -106,8 +106,8 @@
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
-        <a href="https://haoding0713@github.io/#about">
-          <img class="sidebar-profile-picture" src="https://haoding0713@github.io/img/avatar.png" alt="作者的图片" />
+        <a href="https://haoding0713.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://haoding0713.github.io/img/avatar.png" alt="作者的图片" />
         </a>
         <h4 class="sidebar-profile-name">Hao DING</h4>
         
@@ -119,7 +119,7 @@
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://haoding0713@github.io/">
+      <a class="sidebar-button-link " href="https://haoding0713.github.io/">
     
       <i class="sidebar-button-icon fa fa-lg fa-home"></i>
       
@@ -129,7 +129,7 @@
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://haoding0713@github.io/categories">
+      <a class="sidebar-button-link " href="https://haoding0713.github.io/categories">
     
       <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
       
@@ -139,7 +139,7 @@
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://haoding0713@github.io/tags">
+      <a class="sidebar-button-link " href="https://haoding0713.github.io/tags">
     
       <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
       
@@ -149,7 +149,7 @@
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://haoding0713@github.io/archives">
+      <a class="sidebar-button-link " href="https://haoding0713.github.io/archives">
     
       <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
       
@@ -159,7 +159,7 @@
 
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://haoding0713@github.io/#about">
+      <a class="sidebar-button-link " href="https://haoding0713.github.io/#about">
     
       <i class="sidebar-button-icon fa fa-lg fa-question"></i>
       
@@ -197,7 +197,7 @@
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://haoding0713@github.io/index.xml">
+      <a class="sidebar-button-link " href="https://haoding0713.github.io/index.xml">
     
       <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
       
@@ -239,7 +239,7 @@
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://haoding0713@github.io/categories/architecture">Architecture</a>
+      <a class="category-link" href="https://haoding0713.github.io/categories/architecture">Architecture</a>
     
   
 
@@ -265,7 +265,7 @@
 
 <p>支付宝的架构设计上应该考虑到互联网金融业务的特殊性，比如要求更高的业务连续性，更好的高扩展性，更快速的支持新业务发展等特点。目前其架构如下：</p>
 
-<p><img src="https://haoding0713@github.io/img/alipay_architecture.jpg" alt="alipay_architecture" /></p>
+<p><img src="https://haoding0713.github.io/img/alipay_architecture.jpg" alt="alipay_architecture" /></p>
 
 <p>整个平台被分成了三个层：</p>
 
@@ -290,7 +290,7 @@
 下面是支付宝逻辑机房架构的概念图：</li>
 </ol>
 
-<p><img src="https://haoding0713@github.io/img/alipay_idc.jpg" alt="alipay_idc" /></p>
+<p><img src="https://haoding0713.github.io/img/alipay_idc.jpg" alt="alipay_idc" /></p>
 
 <p>这套架构解决了几个关键问题：</p>
 
@@ -309,13 +309,13 @@
 
 <p>以下是支付宝“异地多活”架构示意图：</p>
 
-<p><img src="https://haoding0713@github.io/img/alipay_multiple_bak.png" alt="alipay_multiple_bak" /></p>
+<p><img src="https://haoding0713.github.io/img/alipay_multiple_bak.png" alt="alipay_multiple_bak" /></p>
 
 <p>除了更好的故障应急能力之外，基于逻辑机房我们又具备的“蓝绿发布”或者说“灰度发布”的验证能力。我们把单个逻辑机房（后续简称LDC）内部又分成A、B两个逻辑机房，A 、B机房在功能上完全对等。日常情况下，调用请求按照对等概率随机路由到A或B 。当开启蓝绿模式时，上层路由组件会调整路由计算策略，隔离A与B之间的调用， A组内应用只能相互访问，而不会访问B组。</p>
 
 <p>然后进行蓝绿发布流程大致如下：</p>
 
-<p><img src="https://haoding0713@github.io/img/alipay_ab_publish.png" alt="alipay_ab_publish" /></p>
+<p><img src="https://haoding0713.github.io/img/alipay_ab_publish.png" alt="alipay_ab_publish" /></p>
 
 <p><em>Step1</em>: 发布前，将“蓝”流量调至0%，对“蓝”的所有应用整体无序分2组发布。</p>
 
@@ -335,7 +335,7 @@
 
 <p>支付宝分布式数据架构可伸缩策略主要分为三个维度：</p>
 
-<p><img src="https://haoding0713@github.io/img/alipay_scale_dimension.jpg" alt="alipay_scale_dimension" /></p>
+<p><img src="https://haoding0713.github.io/img/alipay_scale_dimension.jpg" alt="alipay_scale_dimension" /></p>
 
 <ol>
 <li>按照业务类型进行垂直拆分</li>
@@ -345,7 +345,7 @@
 
 <p>下图是支付宝内部交易数据的可伸缩性设计：</p>
 
-<p><img src="https://haoding0713@github.io/img/alipay_data_scale_design.jpg" alt="alipay_data_scale_design" /></p>
+<p><img src="https://haoding0713.github.io/img/alipay_data_scale_design.jpg" alt="alipay_data_scale_design" /></p>
 
 <p>交易系统的数据主要分为三个大数据库集群：</p>
 
@@ -364,11 +364,11 @@
 
 <p>根据CAP和BASE原则，再结合支付宝系统的特点，我们设计了一套基于服务层面的分布式事务框架，他支持两阶段提交协议，但是做了很多的优化，在保证事务的ACID原则的前提下，确保事务的最终一致性 。我们叫做“柔性事物”策略。原理如下：</p>
 
-<p><img src="https://haoding0713@github.io/img/alipay_ici.png" alt="alipay_ici" /></p>
+<p><img src="https://haoding0713.github.io/img/alipay_ici.png" alt="alipay_ici" /></p>
 
 <p>以下是分布式事务框架的流程图：</p>
 
-<p><img src="https://haoding0713@github.io/img/alipay_distributed_transaction.jpg" alt="alipay_distributed_transaction" /></p>
+<p><img src="https://haoding0713.github.io/img/alipay_distributed_transaction.jpg" alt="alipay_distributed_transaction" /></p>
 
 <p>实现：</p>
 
@@ -387,7 +387,7 @@
 其中关键组件异步可靠消息策略如下：</li>
 </ol>
 
-<p><img src="https://haoding0713@github.io/img/alipay_aysn_message.png" alt="alipay_aysn_message" /></p>
+<p><img src="https://haoding0713.github.io/img/alipay_aysn_message.png" alt="alipay_aysn_message" /></p>
 
 <p>其中一些关键设计点：</p>
 
@@ -450,7 +450,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/10/distributed-system-architecture-design/" data-tooltip="构建分布式系统的开源组件">
               
                 <i class="fa fa-angle-left"></i>
                 <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -458,7 +458,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713@github.io/2017/10/java-reflection-tutorial/" data-tooltip="Java反射教程">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/10/java-reflection-tutorial/" data-tooltip="Java反射教程">
               
                 <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                 <i class="fa fa-angle-right"></i>
@@ -475,19 +475,19 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713.github.io/2017/10/alipay-technical-architecture-and-practice/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713.github.io/2017/10/alipay-technical-architecture-and-practice/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713.github.io/2017/10/alipay-technical-architecture-and-practice/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -534,7 +534,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/10/distributed-system-architecture-design/" data-tooltip="构建分布式系统的开源组件">
               
                 <i class="fa fa-angle-left"></i>
                 <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -542,7 +542,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713@github.io/2017/10/java-reflection-tutorial/" data-tooltip="Java反射教程">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/10/java-reflection-tutorial/" data-tooltip="Java反射教程">
               
                 <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                 <i class="fa fa-angle-right"></i>
@@ -559,19 +559,19 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713.github.io/2017/10/alipay-technical-architecture-and-practice/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713.github.io/2017/10/alipay-technical-architecture-and-practice/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713.github.io/2017/10/alipay-technical-architecture-and-practice/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -601,19 +601,19 @@
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhaoding0713%40github.io%2F2017%2F10%2Falipay-technical-architecture-and-practice%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F10%2Falipay-technical-architecture-and-practice%2F">
           <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fhaoding0713%40github.io%2F2017%2F10%2Falipay-technical-architecture-and-practice%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F10%2Falipay-technical-architecture-and-practice%2F">
           <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fhaoding0713%40github.io%2F2017%2F10%2Falipay-technical-architecture-and-practice%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F10%2Falipay-technical-architecture-and-practice%2F">
           <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
         </a>
       </li>
@@ -629,7 +629,7 @@
       <i class="fa fa-remove"></i>
     </div>
     
-      <img id="about-card-picture" src="https://haoding0713@github.io/img/avatar.png" alt="作者的图片" />
+      <img id="about-card-picture" src="https://haoding0713.github.io/img/avatar.png" alt="作者的图片" />
     
     <h4 id="about-card-name">Hao DING</h4>
     
@@ -674,7 +674,25 @@
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://haoding0713@github.io/2017/10/alipay-technical-architecture-and-practice/">
+              <a class="link-unstyled" href="https://haoding0713.github.io/2017/10/distributed-system-architecture-design/">
+                <h3 class="media-heading">构建分布式系统的开源组件</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2017
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p>本文主要收集当下分布式系统中依赖各个部件的开源项目
+</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://haoding0713.github.io/2017/10/alipay-technical-architecture-and-practice/">
                 <h3 class="media-heading">【转】蚂蚁金服11.11：支付宝和蚂蚁花呗的技术架构及实践</h3>
               </a>
               <span class="media-meta">
@@ -694,7 +712,7 @@
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://haoding0713@github.io/2017/10/java-reflection-tutorial/">
+              <a class="link-unstyled" href="https://haoding0713.github.io/2017/10/java-reflection-tutorial/">
                 <h3 class="media-heading">Java反射教程</h3>
               </a>
               <span class="media-meta">
@@ -712,7 +730,7 @@
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://haoding0713@github.io/2017/10/java-enums/">
+              <a class="link-unstyled" href="https://haoding0713.github.io/2017/10/java-enums/">
                 <h3 class="media-heading">【译】Java语言之Enums： 集优雅与可玩性与一体</h3>
               </a>
               <span class="media-meta">
@@ -730,7 +748,7 @@
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://haoding0713@github.io/2017/09/review-cookie/">
+              <a class="link-unstyled" href="https://haoding0713.github.io/2017/09/review-cookie/">
                 <h3 class="media-heading">回顾Cookie</h3>
               </a>
               <span class="media-meta">
@@ -748,7 +766,7 @@
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://haoding0713@github.io/2017/09/consistence-protocol-in-distributed-system/">
+              <a class="link-unstyled" href="https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/">
                 <h3 class="media-heading">分布式系统中的一致性协议</h3>
               </a>
               <span class="media-meta">
@@ -766,7 +784,7 @@
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://haoding0713@github.io/2017/09/how-to-install-yarout-on-arch/">
+              <a class="link-unstyled" href="https://haoding0713.github.io/2017/09/how-to-install-yarout-on-arch/">
                 <h3 class="media-heading">[译]如何在Archlinux上安装Yaourt</h3>
               </a>
               <span class="media-meta">
@@ -784,7 +802,7 @@
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://haoding0713@github.io/2017/09/my-new-blog/">
+              <a class="link-unstyled" href="https://haoding0713.github.io/2017/09/my-new-blog/">
                 <h3 class="media-heading">My New Blog</h3>
               </a>
               <span class="media-meta">
@@ -802,7 +820,7 @@
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://haoding0713@github.io/post/">
+              <a class="link-unstyled" href="https://haoding0713.github.io/post/">
                 <h3 class="media-heading">Posts</h3>
               </a>
               <span class="media-meta">
@@ -823,7 +841,7 @@
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         8 posts found
+         9 posts found
       </p>
     </div>
   </div>
@@ -831,7 +849,7 @@
     
   
     
-    <div id="cover" style="background-image:url('https://haoding0713@github.io/images/cover.jpg');"></div>
+    <div id="cover" style="background-image:url('https://haoding0713.github.io/images/cover.jpg');"></div>
   
 
 
@@ -842,7 +860,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.js" integrity="sha256-N0qFUh7/9vLvia87dDndewmsgsyYoNkdA212tPc+2NI=" crossorigin="anonymous"></script>
 
 
-<script src="https://haoding0713@github.io/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+<script src="https://haoding0713.github.io/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
 
 
 <script>
@@ -861,7 +879,7 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/haoding0713@github.io\/2017\/10\/alipay-technical-architecture-and-practice\/';
+          this.page.url = 'https:\/\/haoding0713.github.io\/2017\/10\/alipay-technical-architecture-and-practice\/';
           
             this.page.identifier = '\/2017\/10\/alipay-technical-architecture-and-practice\/'
           
