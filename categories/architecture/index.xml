@@ -6,10 +6,20 @@
     <description>Recent content in Architecture on Coder DH&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 12 Oct 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 25 Oct 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://haoding0713.github.io/categories/architecture/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>构建分布式系统的开源组件</title>
+      <link>https://haoding0713.github.io/2017/10/distributed-system-architecture-design/</link>
+      <pubDate>Wed, 25 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://haoding0713.github.io/2017/10/distributed-system-architecture-design/</guid>
+      <description>&lt;p&gt;本文主要收集当下分布式系统中依赖各个部件的开源项目
+&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>【转】蚂蚁金服11.11：支付宝和蚂蚁花呗的技术架构及实践</title>

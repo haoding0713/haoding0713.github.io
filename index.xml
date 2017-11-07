@@ -69,7 +69,8 @@
       <pubDate>Wed, 13 Sep 2017 00:00:00 +0000</pubDate>
       
       <guid>https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/</guid>
-      <description>&lt;p&gt;本文汇总并介绍了目前分布式系统中常见的一些一致性协议：两阶段提交协议，三阶段提交协议，向量时钟，RWN协议，paxos协议，Raft协议。作为是一个索引。
+      <description>&lt;p&gt;互联网系统发展规模不断扩大，系统架构不断演进，分布式成为了主流。
+本文从理论出发，到实际需求来讨论分布式系统设计中核心的数据一致性以及事务处理。
 &lt;/p&gt;</description>
     </item>
     

@@ -19,7 +19,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.30 with theme Tranquilpeak 0.4.1-BETA">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.1-BETA">
     <title>分布式系统中的一致性协议</title>
     <meta name="author" content="Hao DING">
     <meta name="keywords" content="">
@@ -28,9 +28,11 @@
     
 
     
-    <meta name="description" content="本文汇总并介绍了目前分布式系统中常见的一些一致性协议：两阶段提交协议，三阶段提交协议，向量时钟，RWN协议，paxos协议，Raft协议。作为是一个索引。
+    <meta name="description" content="互联网系统发展规模不断扩大，系统架构不断演进，分布式成为了主流。
+本文从理论出发，到实际需求来讨论分布式系统设计中核心的数据一致性以及事务处理。
 ">
-    <meta property="og:description" content="本文汇总并介绍了目前分布式系统中常见的一些一致性协议：两阶段提交协议，三阶段提交协议，向量时钟，RWN协议，paxos协议，Raft协议。作为是一个索引。
+    <meta property="og:description" content="互联网系统发展规模不断扩大，系统架构不断演进，分布式成为了主流。
+本文从理论出发，到实际需求来讨论分布式系统设计中核心的数据一致性以及事务处理。
 ">
     <meta property="og:type" content="blog">
     <meta property="og:title" content="分布式系统中的一致性协议">
@@ -38,7 +40,8 @@
     <meta property="og:site_name" content="Coder DH&#39;s Blog">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Coder DH&#39;s Blog">
-    <meta name="twitter:description" content="本文汇总并介绍了目前分布式系统中常见的一些一致性协议：两阶段提交协议，三阶段提交协议，向量时钟，RWN协议，paxos协议，Raft协议。作为是一个索引。
+    <meta name="twitter:description" content="互联网系统发展规模不断扩大，系统架构不断演进，分布式成为了主流。
+本文从理论出发，到实际需求来讨论分布式系统设计中核心的数据一致性以及事务处理。
 ">
     
     
@@ -244,10 +247,54 @@
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <p>本文汇总并介绍了目前分布式系统中常见的一些一致性协议：两阶段提交协议，三阶段提交协议，向量时钟，RWN协议，paxos协议，Raft协议。作为是一个索引。
+              <p>互联网系统发展规模不断扩大，系统架构不断演进，分布式成为了主流。
+本文从理论出发，到实际需求来讨论分布式系统设计中核心的数据一致性以及事务处理。
 </p>
 
-<h2 id="零-cap理论和base理论">零、CAP理论和BASE理论</h2>
+<h2 id="起-数据服务的系统越来越大-数据量级别不断攀升">起、数据服务的系统越来越大，数据量级别不断攀升</h2>
+
+<h3 id="常见的情况">常见的情况</h3>
+
+<ol>
+<li>单台服务器的性能不足以满足所有的网络请求</li>
+<li>单台服务器的支撑，一旦出现故障，会造成服务不可用甚至数据丢失。</li>
+</ol>
+
+<h3 id="解决方案">解决方案</h3>
+
+<p>在此背景下，必须对服务器进行扩展，加入更多的机器来分担性能瓶颈，同时解决单点故障问题。常用的手段有以下两种：</p>
+
+<ol>
+<li>数据分区：就是把数据分块放在不同的服务器上（如 uid % 16， 一致性哈希等）。</li>
+<li>数据镜像：让所有的服务器都有相同的数据，提供相同的服务。</li>
+</ol>
+
+<h3 id="缺陷">缺陷</h3>
+
+<p>第一种情况下，无法解决数据丢失的问题，当某一台服务器出现故障，会有部分数据丢失。所以，<strong>数据的高可用性就需要第二种方案来完成——数据的冗余存储（工业界通常的做法是3份备份）</strong>
+但是，加入更多的机器，会让数据服务变得更复杂，尤其是涉及到跨服务器的事务处理，也就是跨服务器的数据一致性。</p>
+
+<h3 id="经典例子-银行汇款">经典例子：银行汇款</h3>
+
+<p>假设用户A向用户B进行转账。从典型的RDBMS事务来看，从帐号A到帐号B需要以下几个操作：
+- 读取A帐号的余额
+- 对A帐号做减法操作
+- 更新A帐号的余额
+- 读取B帐号的余额
+- 对B帐号做加法操作
+- 更新B帐号的余额</p>
+
+<p>为了数据的一致性，这一系列的操作要么都成功，要么都不成功，而且过程中，对A和B的帐号访问必需锁死，排除其他的读写操作，不然就会有脏数据。
+那么，在加入更多机器后，问题就会变得复杂：</p>
+
+<ol>
+<li>数据分区方案中：如果A和B的帐号不在同一台服务器上，那么就需要一个跨库的事务处理。</li>
+<li>数据镜像方案中：如果A帐号同时有两笔甚至多笔并发操作，且发生在不同的服务器上，则需确保不同服务器对A帐号的写操作是一致的。</li>
+</ol>
+
+<hr />
+
+<h2 id="承-理论">承：理论</h2>
 
 <h4 id="1-cap理论">1. CAP理论</h4>
 
@@ -285,16 +332,37 @@
 <p>根据CAP理论和BASE理论，在分布式系统中，我们无法找到一种能够满足分布式系统所有系统属性的一致性解决方案，如果不想牺牲一致性，我们只能放弃可用性，这显然不能接受。因此，为了保证数据的一致性同时又不影响系统运行的性能，许多分布式系统采用弱一致性来提高性能，一些不同的一致性模型也相继被提出：</p>
 
 <ul>
-<li><p><strong>强一致性</strong>: 当更新操作完成后，任何多个后续进程或者线程的访问都会返回最新的更新过的值。这种是对用户最友好的，就是用户上一次写什么，下一次就保证能读到什么。根据 CAP 理论，这种实现需要牺牲可用性。</p></li>
-
 <li><p><strong>弱一致性</strong>： 系统并不保证跨进程或者线程的访问都会返回最新的更新过的值。系统在数据写入成功之后，不承诺立即可以读到最新写入的值，也不会具体的承诺多久之后可以读到。</p></li>
 
 <li><p><strong>最终一致性</strong>：弱一致性的特定形式。系统保证在没有后续更新的前提下，系统最终返回上一次更新操作的值。在没有故障发生的前提下，不一致窗口的时间主要受通信延迟，系统负载和复制副本的个数影响。DNS 是一个典型的最终一致性系统。</p></li>
+
+<li><p><strong>强一致性</strong>: 当更新操作完成后，任何多个后续进程或者线程的访问都会返回最新的更新过的值。这种是对用户最友好的，就是用户上一次写什么，下一次就保证能读到什么。根据 CAP 理论，这种实现需要牺牲可用性。</p></li>
 </ul>
+
+<p>从这三种一致型的模型上来说，我们可以看到，Weak和Eventually一般来说是异步冗余的，而Strong一般来说是同步冗余的，异步的通常意味着更好的性能，但也意味着更复杂的状态控制。同步意味着简单，但也意味着性能下降。 好，让我们由浅入深，一步一步地来看有哪些技术：</p>
 
 <hr />
 
-<h2 id="一-两阶段提交协议-2-phase-commit-protocol">一、两阶段提交协议(2 Phase Commit Protocol)</h2>
+<h2 id="转-不同的技术">转：不同的技术</h2>
+
+<h3 id="master-slave">Master-Slave</h3>
+
+<p>首先是Master-Slave结构，对于这种加构，Slave一般是Master的备份。在这样的系统中，一般是如下设计的：
+1) 读写请求都由Master负责。
+2) 写请求到Master后，由Master同步到Slave。</p>
+
+<p>从Master同步到Slave上，你可以使用异步，也可以使用同步，可以使用Master来push，也可以使用Slave来pull。 通常来说是Slave来周期性的pull，所以，是最终一致性。这个设计的问题是，如果Master在pull周期内垮掉了，那么会导致这个时间片内的数据丢失。如果你不想让数据丢掉，Slave只能成为Read-Only的方式等Master恢复。</p>
+
+<h3 id="master-master">Master-Master</h3>
+
+<p>Master-Master，又叫Multi-master，是指一个系统存在两个或多个Master，每个Master都提供read-write服务。这个模型是Master-Slave的加强版，数据间同步一般是通过Master间的异步完成，所以是最终一致性。</p>
+
+<p>Master-Master的好处是，一台Master挂了，别的Master可以正常做读写服务，他和Master-Slave一样，当数据没有被复制到别的Master上时，数据会丢失。很多数据库都支持Master-Master的Replication的机制。</p>
+
+<p>但如果多个Master对同一个数据进行修改的时候，这个模型的恶梦就出现了——对数据间的冲突合并，这并不是一件容易的事情。
+可以参考Dynamo的Vector Clock的设计（记录数据的版本号和修改者）就知道这个事并不那么简单，而且Dynamo对数据冲突这个事是交给用户自己搞的。</p>
+
+<h3 id="两阶段提交协议-2-phase-commit-protocol">两阶段提交协议(2 Phase Commit Protocol)</h3>
 
 <p>两阶段提交协议，简称2PC，是比较常用的解决<strong>分布式事务</strong>问题的方式。对于所有参与的进程，要么都提交事务，要么都取消事务，从而满足ACID中的原子性。
 顾名思义，两阶段提交协议将传统的Commit分为两个阶段：投票阶段(Voting)和正式提交(Commit)。假设在没有发生故障的情况下，两阶段提交协议由下列操作序列构成，如下图所示：</p>
@@ -313,7 +381,7 @@ end
 [注] 带有*号的记录表示强制存储
 </code></pre>
 
-<h3 id="投票阶段-voting-phase">投票阶段(Voting Phase)</h3>
+<h4 id="投票阶段-voting-phase">投票阶段(Voting Phase)</h4>
 
 <ol>
 <li>协调者发送一个请求消息到所有的参与者并等待回复。</li>
@@ -321,7 +389,7 @@ end
 <li>如果操作执行成功，参与者返回一个同意消息；反之，返回一个取消消息。</li>
 </ol>
 
-<h3 id="正式提交阶段-commit-phase">正式提交阶段(Commit Phase)</h3>
+<h4 id="正式提交阶段-commit-phase">正式提交阶段(Commit Phase)</h4>
 
 <h5 id="成功的情况">成功的情况</h5>
 
@@ -345,7 +413,7 @@ end
 <li>协调者在收到全部确认消息后，回滚操作。</li>
 </ol>
 
-<h3 id="缺点">缺点</h3>
+<h4 id="缺点">缺点</h4>
 
 <p>两阶段提交协议最大的缺陷在于它本身是一个阻塞的协议。这意味着，如果协调者出现不可用的情况，那么参与者可能永远无法完成事务的提交。参与者在发送同意消息后，一直处于阻塞状态，直到收到提交或回滚的消息。</p>
 
@@ -353,7 +421,7 @@ end
 
 <hr />
 
-<h2 id="二-三阶段提交协议-3pc">二、三阶段提交协议(3PC)</h2>
+<h3 id="三阶段提交协议-3pc">三阶段提交协议(3PC)</h3>
 
 <p>与二阶段提交协议不同点在于，3PC是非阻塞的。具体而言，在三阶段提交协议中，对于一个事务设置了一个超时时间上限，这就确保了，通过三阶段提交协议处理事务，在超时后会释放资源。</p>
 
@@ -379,7 +447,7 @@ timeout causes abort  &lt;----------------------   Phase_3
 Done.
 </code></pre>
 
-<h3 id="协作者">协作者</h3>
+<h4 id="协作者">协作者</h4>
 
 <ol>
 <li>协作者发送查询消息(CanCommit)，并等待参与者的应答，并进入等待状态。</li>
@@ -387,7 +455,7 @@ Done.
 <li>如果协作者完成准备阶段，则进入提交阶段。此时，若参与者的响应超时，协作者将中止事务。</li>
 </ol>
 
-<h3 id="参与者">参与者</h3>
+<h4 id="参与者">参与者</h4>
 
 <ol>
 <li>收到CanCommit消息后，如果参与者同意，则回复Yes并进入到准备状态。否则回复No并进入中止状态。</li>
@@ -395,7 +463,7 @@ Done.
 <li>在收到PreCommit消息后，这时协调者发生失败或者超时的情况，则直接进行commit。</li>
 </ol>
 
-<h3 id="三阶段提交协议想解决的问题">三阶段提交协议想解决的问题</h3>
+<h4 id="三阶段提交协议想解决的问题">三阶段提交协议想解决的问题</h4>
 
 <p>两阶段提交协议中，如果在提交阶段，协调者或参与者之一发生异常，无法有效地恢复。</p>
 
@@ -408,13 +476,13 @@ Done.
 <p>三阶段提交协议通过引入一个Prepared阶段来消除上述的问题。 如果协调者在发出PreCommit消息前发生了异常，那么参与者会一致认为操作被中止。
 同时协调者在收到全部参与者的ACK消息前不会发送DoCommit消息。这样就消除了部分参与者在没有达成一致的情况下贸然完成操作的可能性。</p>
 
-<h3 id="缺点-1">缺点</h3>
+<h4 id="缺点-1">缺点</h4>
 
 <p>最主要的缺点是一旦网络出现中断，则这个操作无法从中断中恢复。最初的3PC算法被设计为异常-停止模型，任何的崩溃会被检测到，而局部网络或异步通信也无法继续进行操作。</p>
 
 <hr />
 
-<h2 id="三-向量时钟">三、向量时钟</h2>
+<h3 id="向量时钟">向量时钟</h3>
 
 <p>通过向量空间祖先继承的关系比较, 使数据保持最终一致性,这就是向量时钟的基本定义。</p>
 
@@ -467,7 +535,7 @@ vclock = Alice：1, Ben：1, Cathy：1, Dave：2</p>
 
 <hr />
 
-<h2 id="四-nwr协议">四、NWR协议</h2>
+<h3 id="nwr协议">NWR协议</h3>
 
 <p>NWR协议是在分布式系统中用于控制一致性级别的一种策略。最初是Amazon在它的Dynamo云存储系统中使用。</p>
 
@@ -487,7 +555,7 @@ R： 代表一次成功的读取操作至少要求R份数据读取成功。</p>
 
 <hr />
 
-<h2 id="五-paxos协议">五、Paxos协议</h2>
+<h3 id="paxos协议">Paxos协议</h3>
 
 <p>Paxos协议的基础比较难理解，同时衍生出了一些其他变种。相关资料可以在网上搜索到，下面是几个参考链接：</p>
 
@@ -499,7 +567,7 @@ R： 代表一次成功的读取操作至少要求R份数据读取成功。</p>
 
 <hr />
 
-<h2 id="六-raft协议">六、Raft协议</h2>
+<h3 id="raft协议">Raft协议</h3>
 
 <p>正式由于Paxos算法的复杂性，Raft被创造来实现：
 * 更易理解的设计
@@ -511,6 +579,14 @@ R： 代表一次成功的读取操作至少要求R份数据读取成功。</p>
 </ul>
 
 <p>非常清晰，详解Raft协议的动画： <a href="http://thesecretlivesofdata.com/raft/">http://thesecretlivesofdata.com/raft/</a></p>
+
+<h2 id="合-总结">合：总结</h2>
+
+<p>下图来自：Google App Engine的co-founder Ryan Barrett在2009年的google i/o上的演讲《Transaction Across DataCenter》（视频： <a href="http://www.youtube.com/watch?v=srOgpXECblk）">http://www.youtube.com/watch?v=srOgpXECblk）</a></p>
+
+<p><img src="https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter.jpg" alt="技术方案在不同指标上的对比" /></p>
+
+<p>从上图不难看出，没有一个方案可以同时满足所有要求，从而再一次证明了CAP理论：一致性，可用性，分区容忍性，你只可能要其中的两个。</p>
               
             </div>
           </div>
@@ -848,7 +924,8 @@ R： 代表一次成功的读取操作至少要求R份数据读取成功。</p>
                   Sep 9, 2017
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather"><p>本文汇总并介绍了目前分布式系统中常见的一些一致性协议：两阶段提交协议，三阶段提交协议，向量时钟，RWN协议，paxos协议，Raft协议。作为是一个索引。
+              <div class="media-content hide-xs font-merryweather"><p>互联网系统发展规模不断扩大，系统架构不断演进，分布式成为了主流。
+本文从理论出发，到实际需求来讨论分布式系统设计中核心的数据一致性以及事务处理。
 </p></div>
             </div>
             <div style="clear:both;"></div>
