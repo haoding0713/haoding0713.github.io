@@ -6,10 +6,20 @@
     <description>Recent content in Distributed System on Coder DH&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 25 Oct 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Nov 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://haoding0713.github.io/categories/distributed-system/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>分布式事务的解决方案</title>
+      <link>https://haoding0713.github.io/2017/11/distributed-transaction-solution/</link>
+      <pubDate>Tue, 07 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://haoding0713.github.io/2017/11/distributed-transaction-solution/</guid>
+      <description>&lt;p&gt;收集目前互联网企业架构中常见的分布式事务的解决方案。
+&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>构建分布式系统的开源组件</title>

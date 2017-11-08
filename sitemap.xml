@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://haoding0713.github.io/2017/11/distributed-transaction-solution/</loc>
+    <lastmod>2017-11-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://haoding0713.github.io/2017/10/distributed-system-architecture-design/</loc>
     <lastmod>2017-10-25T00:00:00+00:00</lastmod>
   </url>
@@ -67,7 +72,7 @@
   
   <url>
     <loc>https://haoding0713.github.io/</loc>
-    <lastmod>2017-10-25T00:00:00+00:00</lastmod>
+    <lastmod>2017-11-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -85,7 +90,7 @@
   
   <url>
     <loc>https://haoding0713.github.io/categories/distributed-system/</loc>
-    <lastmod>2017-10-25T00:00:00+00:00</lastmod>
+    <lastmod>2017-11-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -97,7 +102,7 @@
   
   <url>
     <loc>https://haoding0713.github.io/post/</loc>
-    <lastmod>2017-10-25T00:00:00+00:00</lastmod>
+    <lastmod>2017-11-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

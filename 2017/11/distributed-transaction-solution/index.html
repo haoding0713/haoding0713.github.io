@@ -1,5 +1,9 @@
 
 
+  
+    
+  
+
 
   
 
@@ -16,25 +20,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.1-BETA">
-    <title>Architecture</title>
+    <title>分布式事务的解决方案</title>
     <meta name="author" content="Hao DING">
     <meta name="keywords" content="">
 
     <link rel="icon" href="https://haoding0713.github.io/favicon.png">
     
-      <link rel="alternate" type="application/rss+xml" title="RSS" href="https://haoding0713.github.io/categories/architecture/index.xml">
-    
 
     
-    <meta name="description" content="Hugo tranquilpeak theme demo">
-    <meta property="og:description" content="Hugo tranquilpeak theme demo">
+    <meta name="description" content="收集目前互联网企业架构中常见的分布式事务的解决方案。
+">
+    <meta property="og:description" content="收集目前互联网企业架构中常见的分布式事务的解决方案。
+">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Architecture">
-    <meta property="og:url" content="/categories/architecture/">
+    <meta property="og:title" content="分布式事务的解决方案">
+    <meta property="og:url" content="/2017/11/distributed-transaction-solution/">
     <meta property="og:site_name" content="Coder DH&#39;s Blog">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Coder DH&#39;s Blog">
-    <meta name="twitter:description" content="Hugo tranquilpeak theme demo">
+    <meta name="twitter:description" content="收集目前互联网企业架构中常见的分布式事务的解决方案。
+">
     
     
 
@@ -45,6 +50,8 @@
       <meta property="og:image" content="https://haoding0713.github.io/img/avatar.png">
     
 
+    
+      <meta property="og:image" content="https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter.jpg">
     
     
     
@@ -69,7 +76,7 @@
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="1">
+      <header id="header" data-behavior="4">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://haoding0713.github.io/">Coder DH&#39;s Blog</a>
@@ -89,7 +96,7 @@
   
 </header>
 
-      <nav id="sidebar" data-behavior="1">
+      <nav id="sidebar" data-behavior="4">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
@@ -198,40 +205,26 @@
 </nav>
 
       
-        
 
-      
-      <div id="main" data-behavior="1"
+      <div id="main" data-behavior="4"
         class="
                hasCoverMetaIn
                ">
-        
-          <section class="postShorten-group main-content-wrap">
-            
-            
-              
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-center">
   
-    
+    <h1 class="post-title" itemprop="headline">
+      分布式事务的解决方案
+    </h1>
   
-
-
   
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://haoding0713.github.io/2017/10/distributed-system-architecture-design/">
-          构建分布式系统的开源组件
-        </a>
-      </h1>
-      
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2017-10-25T00:00:00Z">
+      <time itemprop="datePublished" datetime="2017-11-07T00:00:00Z">
         
-  十月 25, 2017
+  十一月 7, 2017
 
       </time>
     
@@ -240,93 +233,240 @@
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://haoding0713.github.io/categories/architecture">architecture</a>, 
-    
-      <a class="category-link" href="https://haoding0713.github.io/categories/distributed-system">distributed-system</a>
+      <a class="category-link" href="https://haoding0713.github.io/categories/distributed-system">distributed system</a>
     
   
 
 
   </div>
 
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      <p>本文主要收集当下分布式系统中依赖各个部件的开源项目
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>收集目前互联网企业架构中常见的分布式事务的解决方案。
 </p>
-      <p>
-        <a href="https://haoding0713.github.io/2017/10/distributed-system-architecture-design/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
+
+<blockquote>
+<p>在之前一篇<a href="https://haoding0713.github.io/2017/09/consistence-protocol-in-distributed-system/">分布式系统中的一致性协议</a>中介绍了分布式系统中的事务处理中常用的一些理论和协议。
+本文关注的重心转移到目前国内互联网公司内的一些实践方案。</p>
+</blockquote>
+
+<h2 id="一-两阶段提交">一、两阶段提交</h2>
+
+<p>在JavaEE平台下，WebLogic、Webshare等主流商用的应用服务器提供了JTA的实现和支持。而在Tomcat下是没有实现的（其实笔者并不认为Tomcat能算是JavaEE应用服务器），这就需要借助第三方的框架Jotm、Automikos等来实现，两者均支持spring事务整合。</p>
+
+<p>总结：这种方式实现难度不算太高，比较适合传统的单体应用，在同一个方法中存在跨库操作的情况。但分布式事务对性能的影响会比较大，不适合高并发和高性能要求的场景。</p>
+
+<h2 id="二-提供回滚接口">二、提供回滚接口</h2>
+
+<p>在一次调用中，涉及多个服务，尽量按照串行的方式去执行调用。一旦某个服务调用失败，则不会继续调用之后的服务，同时需要回滚前面的服务。</p>
+
+<p>总结：这种方式缺点比较多，通常在复杂场景下是不推荐使用的。在简单的场景下，依赖少量（个人感觉不超过3个）服务的情况下，能够梳理出服务执行的先后顺序，且提供回滚，则是一种便捷的方案。</p>
+
+<h2 id="三-ebay模式-消息队列-persistent-message-和状态记录表-update-table">三、Ebay模式 - 消息队列（Persistent Message）和状态记录表（Update Table）</h2>
+
+<p>英文论文链接： <a href="http://queue.acm.org/detail.cfm?id=1394128">Base: An Acid Alternative (eBay 方案)</a></p>
+
+<p>原文中给出了一个交易的例子：</p>
+
+<blockquote>
+<p>user(id, name, amt_sold, amt_bought)</p>
+
+<p>transaction(id, seller_id, buyer_id, amount)</p>
+
+<p>其中user表记录用户交易汇总信息，transaction表记录每个交易的详细信息。</p>
+</blockquote>
+
+<h4 id="如果在一个acid环境下-即在单一数据库中-执行的sql可以写成">如果在一个ACID环境下（即在单一数据库中），执行的SQL可以写成：</h4>
+
+<pre><code>BEGIN
+  INSERT INTO transaction VALUES(xid, $seller_id, $buyer_id, $amount);
+  UPDATE user SET amt_sold = amt_sold + $amount WHERE id = $seller_id;
+  UPDATE user SET amt_bought = amt_bought + $amount WHERE id = $buyer_id;
+COMMIT
+// 即在transaction表中记录交易信息，然后更新卖家和买家的状态。
+</code></pre>
+
+<h4 id="user表和transaction表存储在不同节点上的情况">User表和Transaction表存储在不同节点上的情况</h4>
+
+<p><em>User表中已经冗余了sold和bought的金额，出于系统性能考虑，我们可以适当放宽一致性的强度。（想象一下话费充值或者银行交易，并不是实时到账的，会存在几秒到1分钟的延迟。类似于当下服务化的情况，即由于服务拆分，导致User表和Transaction表）。</em></p>
+
+<pre><code>BEGIN
+  INSERT INTO VALUES(xid, $seller_id, $buyer_id, $amount)
+COMMIT
+
+BEGIN
+  UPDATE user SET amount_sold = amount_sold + $amount WHERE id = $seller_id;
+  UPDATE user SET amount_bought = amount_bought + $amount WHERE id = $buyer_id;
+COMMIT
+</code></pre>
+
+<p>由于分布在两个不同的事务中，执行的结果无法100%保证。如果第二个事务失败了，那么就导致User表中的金额出现不一致。</p>
+
+<h4 id="引入持久化的消息队列">引入持久化的消息队列</h4>
+
+<p>这里有一个非常重要的因素，即持久化的消息和数据库使用同一套存储资源，从而避免2PC。</p>
+
+<pre><code class="language-SQL">BEGIN
+  INSERT INTO transaction VALUES(xid, $seller_id, $buyer_id, $amount);
+  Queue message &quot;Update user('seller', $seller_id, $amount)&quot;;
+  Queue message &quot;Update user('buyer', $buyer_id, $amount)&quot;;
+COMMIT;
+
+FOR each message in queue
+  BEGIN
+    Dequeue message
+    IF message.balance == &quot;seller&quot;
+      UPDATE user SET amount_sold = amount_sold + message.amount WHERE id = message.seller_id;
+    ELSE
+      UPDATE user SET amount_bought = amount_bought + message.amount WHERE id = message.buyer_id;
+    END IF 
+  COMMIT
+END FOR
+</code></pre>
+
+<p>将交易记录和持久化消息放在同一个事务内，保证了更新用户账户的信息被保存了下来。交由单独的消息处理组件来更新User表的金额信息。这个方案初看的确解决了所有的问题，但其实存在一个问题。为了避免2PC，消息队列和交易表在同一个host内。到了第二个事务，消息队列和用户表就变成了分布式事务。</p>
+
+<h4 id="幂等和更新表">幂等和更新表</h4>
+
+<p>使用一张更新记录表的中间表，来实现操作的幂等性，这样一来，即便出现消息重复，也可以保证User表中的资金不会被错误计算。</p>
+
+<blockquote>
+<p>updates_applied(trans_id, balance, user_id);</p>
+</blockquote>
+
+<p>执行的伪代码如下：</p>
+
+<pre><code class="language-SQL">BEGIN 
+  INSERT INTO transaction VALUES(xid, $seller_id, $buyer_id, $amount);
+  Queue message &quot;Update user('seller', $seller_id, $amount)&quot;;
+  Queue message &quot;Update user('buyer', $buyer_id, $amount)&quot;;
+COMMIT
+
+FOR each message IN queue
+  Peek message
   
-</article>
+  BEGIN
+    SELECT count(*) as processed FROM updates_applied
+      WHERE trans_id = message.trans_id 
+      AND balance = message.balance 
+      AND user_id = message.user_id
+
+    IF processed == 0
+      IF message.balance = &quot;seller&quot;
+        UPDATE user SET amount_sold = amount_sold + message.amount WHERE id = message.user_id;
+
+      ELSE 
+        UPDATE user SET amount_bought = amount_bought + message.amount WHERE id = message.user_id;
+
+      END IF
+
+      INSERT INTO updates_applied VALUES(message.trans_id, message.balance, message.user_id);
+
+    END IF
+  COMMIT
+  IF success
+    Remove message from queue
+  END
+END FOR
+
+</code></pre>
+
+<p>总结： 通过解耦，将操作分段化执行，同时避免了2PC，该方案是最终一致性的一种妥协。
+因为当出现故障时，短时间内出现不一致的状态，但可以通过消息队列和更新表进行恢复。
+在数据库满足性能和吞吐量时，结合高性能的MQ产品，可以大多数的并发场景。</p>
+
+<h2 id="四-事务型消息队列">四、事务型消息队列</h2>
+
+<p>这一块目前可以看一下Kafka以及阿里集团的RocketMQ</p>
+
+<h2 id="五-支付宝及蚂蚁金融云的gts-分布式事务框架">五、支付宝及蚂蚁金融云的GTS（分布式事务框架）</h2>
+
+<p>在整体架构方面，GTS由三个组件组成：客户端（GTS-Client），资源管理器（RM），事务协调器（GTS-Server）。客户端与事务协调器间，资源管理器与事务协调器间都是通过GTS分布式事务协议进行通信。目前支持多种数据源，包括：DRDS，Oracle，MySQL，RDS，PostgreSQL，MQ</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                <i class="fa fa-angle-left"></i>
+                <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+              </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/10/distributed-system-architecture-design/" data-tooltip="构建分布式系统的开源组件">
+              
+                <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                <i class="fa fa-angle-right"></i>
+              </a>
+            </li>
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713.github.io/2017/11/distributed-transaction-solution/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713.github.io/2017/11/distributed-transaction-solution/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713.github.io/2017/11/distributed-transaction-solution/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
 
             
               
-  
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://haoding0713.github.io/2017/10/alipay-technical-architecture-and-practice/">
-          【转】蚂蚁金服11.11：支付宝和蚂蚁花呗的技术架构及实践
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2017-10-12T00:00:00Z">
-        
-  十月 12, 2017
-
-      </time>
-    
-    
-  
-  
-    <span>发布在</span>
-    
-      <a class="category-link" href="https://haoding0713.github.io/categories/architecture">Architecture</a>
-    
-  
-
-
-  </div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      <p>每年“双11”都是一场电商盛会，消费者狂欢日。今年双11的意义尤为重大，它已经发展成为全世界电商和消费者都参与进来的盛宴。而对技术人员来说，双十一无疑已经成为一场大考，考量的角度是整体架构、基础中间件、运维工具、人员等。</p>
-
-<p>一次成功的大促准备不光是针对活动本身对系统和架构做的优化措施，比如：流量控制，缓存策略，依赖管控，性能优化……更是与长时间的技术积累和打磨分不开。
-</p>
-      <p>
-        <a href="https://haoding0713.github.io/2017/10/alipay-technical-architecture-and-practice/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
-  
-    <a href="https://haoding0713.github.io/2017/10/alipay-technical-architecture-and-practice/">
-      <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="https://haoding0713.github.io/img/alipay_architecture.jpg"/>
-      </div>
-    </a>
-  
-</article>
-
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
             
-            
-
-          </section>
-        
+          </div>
+        </article>
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
     &copy; 2017 Hao DING. All Rights Reserved
@@ -334,6 +474,100 @@
 </footer>
 
       </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                <i class="fa fa-angle-left"></i>
+                <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+              </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://haoding0713.github.io/2017/10/distributed-system-architecture-design/" data-tooltip="构建分布式系统的开源组件">
+              
+                <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                <i class="fa fa-angle-right"></i>
+              </a>
+            </li>
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://haoding0713.github.io/2017/11/distributed-transaction-solution/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://haoding0713.github.io/2017/11/distributed-transaction-solution/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://haoding0713.github.io/2017/11/distributed-transaction-solution/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F11%2Fdistributed-transaction-solution%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F11%2Fdistributed-transaction-solution%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fhaoding0713.github.io%2F2017%2F11%2Fdistributed-transaction-solution%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
     </div>
     
     <div id="about">
@@ -606,6 +840,32 @@ $(document).ready(function() {
   });
 });
 </script>
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/haoding0713.github.io\/2017\/11\/distributed-transaction-solution\/';
+          
+            this.page.identifier = '\/2017\/11\/distributed-transaction-solution\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
 
 
 
