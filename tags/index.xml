@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Coder DH&#39;s Blog</title>
-    <link>https://haoding0713.github.io/tags/</link>
+    <link>http://haoding0713.github.io/tags/</link>
     <description>Recent content in Tags on Coder DH&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Wed, 25 Oct 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://haoding0713.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://haoding0713.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Design</title>
-      <link>https://haoding0713.github.io/tags/design/</link>
+      <link>http://haoding0713.github.io/tags/design/</link>
       <pubDate>Wed, 25 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haoding0713.github.io/tags/design/</guid>
+      <guid>http://haoding0713.github.io/tags/design/</guid>
       <description></description>
     </item>
     

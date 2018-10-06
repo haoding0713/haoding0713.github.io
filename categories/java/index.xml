@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Java on Coder DH&#39;s Blog</title>
-    <link>https://haoding0713.github.io/categories/java/</link>
+    <link>http://haoding0713.github.io/categories/java/</link>
     <description>Recent content in Java on Coder DH&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Wed, 11 Oct 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://haoding0713.github.io/categories/java/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://haoding0713.github.io/categories/java/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Java反射教程</title>
-      <link>https://haoding0713.github.io/2017/10/java-reflection-tutorial/</link>
+      <link>http://haoding0713.github.io/2017/10/java-reflection-tutorial/</link>
       <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haoding0713.github.io/2017/10/java-reflection-tutorial/</guid>
+      <guid>http://haoding0713.github.io/2017/10/java-reflection-tutorial/</guid>
       <description>&lt;p&gt;Java反射为程序提供了无需在编译时知道具体的类，方法等名称，并在运行时检查类，接口，字段和方法的能力。使用反射可以实例化新对象，调用方法和获取/设置字段值。本文不仅会涉及Java反射的基础知识，例如如何使用数组，注释，泛型和动态代理，并进行动态类加载和重新加载。最后还会解释一些有关运行时获取泛型的常见问题。比如泛型信息并不是在运行时完全丢失。
 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>【译】Java语言之Enums： 集优雅与可玩性与一体</title>
-      <link>https://haoding0713.github.io/2017/10/java-enums/</link>
+      <link>http://haoding0713.github.io/2017/10/java-enums/</link>
       <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haoding0713.github.io/2017/10/java-enums/</guid>
+      <guid>http://haoding0713.github.io/2017/10/java-enums/</guid>
       <description>&lt;p&gt;话说Java 8已经到来(译者补充：时至今日，Java 9也呼之欲出)，但我们真的已经非常了解从Java 5那时就引入的Enum（枚举）了吗？ 枚举在Java语言中的作用被低估了，除了定义/保存常量之类的日常用法，其实它还有更多的用武之地。
 &lt;/p&gt;</description>
     </item>

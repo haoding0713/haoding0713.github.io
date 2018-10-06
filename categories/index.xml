@@ -2,66 +2,66 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Coder DH&#39;s Blog</title>
-    <link>https://haoding0713.github.io/categories/</link>
+    <link>http://haoding0713.github.io/categories/</link>
     <description>Recent content in Categories on Coder DH&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Wed, 25 Oct 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://haoding0713.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://haoding0713.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Architecture</title>
-      <link>https://haoding0713.github.io/categories/architecture/</link>
+      <link>http://haoding0713.github.io/categories/architecture/</link>
       <pubDate>Wed, 25 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haoding0713.github.io/categories/architecture/</guid>
+      <guid>http://haoding0713.github.io/categories/architecture/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Archlinux</title>
-      <link>https://haoding0713.github.io/categories/archlinux/</link>
+      <link>http://haoding0713.github.io/categories/archlinux/</link>
       <pubDate>Tue, 12 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haoding0713.github.io/categories/archlinux/</guid>
+      <guid>http://haoding0713.github.io/categories/archlinux/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Cookie</title>
-      <link>https://haoding0713.github.io/categories/cookie/</link>
+      <link>http://haoding0713.github.io/categories/cookie/</link>
       <pubDate>Thu, 21 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haoding0713.github.io/categories/cookie/</guid>
+      <guid>http://haoding0713.github.io/categories/cookie/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Distributed System</title>
-      <link>https://haoding0713.github.io/categories/distributed-system/</link>
+      <link>http://haoding0713.github.io/categories/distributed-system/</link>
       <pubDate>Tue, 07 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haoding0713.github.io/categories/distributed-system/</guid>
+      <guid>http://haoding0713.github.io/categories/distributed-system/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Java</title>
-      <link>https://haoding0713.github.io/categories/java/</link>
+      <link>http://haoding0713.github.io/categories/java/</link>
       <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haoding0713.github.io/categories/java/</guid>
+      <guid>http://haoding0713.github.io/categories/java/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Web Security</title>
-      <link>https://haoding0713.github.io/categories/web-security/</link>
+      <link>http://haoding0713.github.io/categories/web-security/</link>
       <pubDate>Thu, 21 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://haoding0713.github.io/categories/web-security/</guid>
+      <guid>http://haoding0713.github.io/categories/web-security/</guid>
       <description></description>
     </item>
     
